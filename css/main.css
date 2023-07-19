@@ -1,0 +1,217 @@
+html{
+	font-family: 'regular';
+	color: #fff;
+}
+
+*{
+	box-sizing: border-box;
+}
+
+.wrap {
+	max-width: 320px;
+	background-color: #44C8F2;
+	min-height: 568px;
+	position: relative;
+	margin: auto;
+}
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	/* z-index: -1; */
+	pointer-events: none;
+}
+.logo {
+	user-select: none;
+	position: absolute;
+	top: 24px;
+	left: 0;
+	right: 0;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+}
+.game {
+}
+.frames {
+}
+
+.frame{
+	min-height: 568px;
+	background-color: #055EB0;
+	text-align: center;
+}
+.frame-hello {
+	min-height: 568px;
+	background-image: url('../img/frames/bg2.jpg');
+	background-repeat: no-repeat;
+
+	background-color: #055EB0;
+}
+
+.frame-hello {
+	padding-top: 80px;
+	padding-bottom: 37px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.frame-hello__img {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+.title{
+	font-family: 'bold';
+	text-align: center;
+	font-size: 32px;
+	text-transform: uppercase;
+}
+.frame-hello__title {
+	font-family: 'bold';
+	text-align: center;
+	font-size: 32px;
+	text-transform: uppercase;
+	margin-bottom: 16px;
+}
+
+.frame-hello p{
+	text-align: center;
+	font-size: 18px;
+	line-height: 1.4;
+	line-height: normal;
+	padding: 0 27px;
+	margin-bottom: 10px;
+}
+
+p{
+	text-align: center;
+	font-size: 18px;
+	line-height: 1.4;
+	line-height: normal;
+	padding: 0 27px;
+}
+
+.button{
+	cursor: pointer;
+	appearance: none;
+	border-radius: 50px;
+	border: none;
+	color: white;
+	line-height: 28px;
+	text-transform: uppercase;
+	background: linear-gradient(360deg, rgba(176, 1, 85, 0.45) 0%, rgba(255, 255, 255, 0.00) 100%), #EE4998;
+	background-blend-mode: multiply, normal;
+	box-shadow: 0px 1px 10px 0px rgba(239, 74, 153, 0.60);
+	padding: 8px 52px;
+	justify-content: center;
+	align-items: center;
+
+	font-family: 'bold';
+}
+
+.button:hover{
+	background: linear-gradient(360deg, rgba(140, 0, 67, 0.60) 0%, rgba(176, 1, 85, 0.15) 100%), #EE4998;
+	background-blend-mode: multiply, normal;
+	box-shadow: 0px 1px 20px 0px rgba(255, 0, 122, 0.60);
+}
+
+.button:active{
+	background: linear-gradient(360deg, #8C0043 0%, rgba(176, 1, 85, 0.25) 100%), #EE4998;
+	background-blend-mode: multiply, normal;
+	box-shadow: 0px 1px 20px 0px rgba(255, 0, 122, 0.60);
+}
+
+.frame-hello .button {
+	margin-top: 17px;
+}
+
+
+
+
+.frame-reg{
+	background-image: url('../img/frames/reg/bg.jpg');
+	background-repeat: no-repeat;
+}
+.frame-reg p{
+	padding-top: 194px;
+	text-align: center;
+	margin-bottom: 22px;
+}
+
+.frame-reg input{
+	max-width: 270px;
+	width: 100%;
+	border-radius: 18px;
+	background: #FFF;
+	border: none;
+	margin-bottom: 16px;
+	outline: none;
+
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 18px;
+
+	color: #055EB0;
+	font-family: 'regular';
+
+	padding: 12px 16px;
+}
+
+.frame-reg input::placeholder{
+	color: #055EB0;
+	font-family: 'regular';
+}
+
+.frame-reg form{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.frame-reg .button{
+	max-width: 270px;
+	width: 100%;
+	align-items: center;
+}
+.frame-reg{
+	
+}
+
+.frame-team{
+	text-align: center;
+	background-image: url('../img/frames/reg/bg.jpg');
+	background-repeat: no-repeat;
+	padding-bottom: 45px;
+}
+.frame-team__title{
+	padding-top: 89px;
+	margin-bottom: 18px;
+}
+.frame-team p{
+	padding: 0 23px;
+	margin-bottom: 21px;
+}
+.frame-team__box{
+	border-radius: 15px;
+	border: 3px solid #FFF;
+	max-width: 282px;
+	width: 100%;
+	margin: auto;
+	margin-bottom: 10px;
+	padding-bottom: 6px;
+}
+.frame-team__box span{
+	color: #EBD046;
+}
+.frame-team__box p{
+	margin-bottom: 10px;
+}
+.frame-team .button{
+	
+}
