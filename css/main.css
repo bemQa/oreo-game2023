@@ -209,9 +209,16 @@ p{
 .frame-team__box span{
 	color: #EBD046;
 }
+
 .frame-team__box p{
 	margin-bottom: 10px;
 }
 .frame-team .button{
 	
+}
+
+form span.error {
+	color: #EE4998;
+	/* margin-top: 4px; */
+	margin-bottom: 4px;
 }
