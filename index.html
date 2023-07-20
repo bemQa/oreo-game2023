@@ -1,70 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Oreo game</title>
-	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/reset.css">
-	<link rel="stylesheet" href="fonts/fonts.css">
-	<link rel="stylesheet" href="css/main.css">
-</head>
-<body>
-	<div class="wrap">
-		<div class="overlay">
-			<div class="logo">
-				<img src="img/logo.png" alt="logo">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Oreo game</title>
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="fonts/fonts.css">
+		<link rel="stylesheet" href="css/main.css">
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="overlay">
+				<div class="logo">
+					<img src="img/logo.png" alt="logo">
+				</div>
+			</div>
+			<div class="game">
+
+			</div>
+			<div class="frames">
+				<div class="frame frame-hello" hidden>
+					<div class="frame-hello__img">
+						<img src="img/frames/f1-img.png" alt="oreo">
+					</div>
+					<div class="frame-hello__title">Привет! <br>Добро пожаловать <br>в
+						идеальный<br> магазин Oreo!</div>
+					<p>
+						Здесь мы в игровой форме посоревнуемся командами и выполним задачи,
+						которые приведут к росту доли OREO.
+					</p>
+					<p>
+						Мы вместе внесем вклад в рост доли рынка OREO в 2023 году! Выполним все
+						sales KPIsи создадим идеальный магазин OREO, заработав баллы для своей
+						команды!
+					</p>
+					<p>Удачи!</p>
+					<button class="button"> Начать </button>
+				</div>
+				<div class="frame frame-reg" hidden>
+					<p>Введите свои данные для бейджа.<br> Он поможет другим участникам узнать
+						вас при встрече в идеальном магазине OREO.</p>
+					<form novalidate="novalidate">
+						<input type="text" placeholder="Имя" name="name" required>
+						<input type="text" placeholder="Фамилия" name="surname" required>
+						<input type="text" placeholder="E-mail" name="email" required>
+
+						<button class="button" type="submit">Сделано 👍</button>
+					</form>
+				</div>
+				<div class="frame frame-team" hidden>
+					<div class="frame-team__title title">Отлично! <br>вы в команде -<br>"Ванильные Чемпионы"</div>
+					<p>
+						Ваша задача: пройти игры на время. Чем быстрее задание выполнено — тем
+						лучше.
+					</p>
+					<div class="frame-team__box" hidden>
+						<img src="img/frames/team/img.png" alt="sign">
+						<p>
+							За каждую ошибку вам <br>прибавляется <span>+5 секунд</span> к зачету.
+						</p>
+						<p>
+							Всего у вас есть 3 права на ошибку.<br>При трёх неудачных попытках-
+							штраф: <br>+3 минуты к зачету и завершение игры.
+						</p>
+					</div>
+					<button class="button">Скорее к приключениям 👍</button>
+				</div>
+				<div class="frame frame-game-start frame-game-start--first" hidden>
+					<div class="frame__game-start__bg">
+						<img src="img/frames/game-start/bg/1.png" alt="bg">
+					</div>
+					<div class="frame__game-start__title title">Идеальная полка<br> Oreo</div>
+					<p>
+						Добро пожаловать! Смотри: в этом пространстве всё прекрасно, но не хватает полки с любимыми печеньками.
+					</p>
+					<p>
+						Ваша задача: собрать целую синюю стену и создать идеальную полку OREO. Скорее раскладывай OREO на полке и не забывайте про приоритеты по ассортименту!
+					</p>
+					<button class="button">Начать</button>
+				</div>
+				<div class="frame frame-game-start frame-game-start--second" hidden>
+					<div class="frame__game-start__bg">
+						<img src="img/frames/game-start/bg/2.png" alt="bg">
+					</div>
+					<div class="frame__game-start__title title">
+						Идеальный  <br>магазин
+					</div>
+					<p>
+						Добро пожаловать в магазин!<br> Давайте вместе сделаем его<br> идеальным для OREO
+					</p>
+					<p> 
+						Ваша задача: поставить ДМП<br> в те зоны магазина, которые 	принесут<br> максимальный рост для OREO
+					</p>
+					<br>
+					<br>
+					<button class="button">Начать</button>
+				</div>
+				<div class="frame frame-game-start frame-game-start--third" hidden>
+					<div class="frame__game-start__bg">
+						<img src="img/frames/game-start/bg/3.png" alt="bg">
+					</div>
+					<div class="frame__game-start__title title">
+						идеальный<br>промо план
+					</div>
+					<p>
+						Давайте построим идеальный промо<br> план для OREO!
+					</p>
+					<p>
+						Ваша задача: Верно перетащить<br> соответствующие инструменты <br>в правильные периоды.
+					</p>
+					<br>
+					<button class="button">Начать</button>
+				</div>
+				<div class="frame frame-game-start frame-game-start--final" hidden>
+					<div class="frame__game-start__bg">
+						<img src="img/frames/game-start/bg/final.png" alt="bg">
+					</div>
+					<div class="frame__game-start__title title">
+						Помните, что в идеальном <br> промо-плане Oreo:
+					</div>
+					<br>
+					<ul>
+						<li>Регулярное промо в каждый месяц</li>
+						<li>Топ-активации каждый квартал</li>
+						<li>Программа лояльности 2 раза в год</li>
+					</ul>
+					<br>
+					<br>
+					<br>
+					<button class="button">Начать</button>
+				</div>
+				<div class="frame frame-game-start frame-game-start--rating" hidden>
+					<div class="frame__game-start__bg">
+						<img src="img/frames/game-start/bg/ratings.png" alt="bg">
+					</div>
+					<div class="frame__game-start__title title">
+						Это была отличная<br> игра! Вы с командой<br> отлично справились.
+					</div>
+					<br>
+					<p>Посмотри ваш рейтинг<br> в ТОПе команд.</p>
+					<br>
+					<br>
+					<button class="button">Посмотреть</button>
+				</div>
+				<div class="frame frame--table" >
+					<div class="rates">
+						<div class="rates__inner">
+							<div class="rates__title"></div>
+							<div class="rates__th">
+								<span>Место</span>
+								<span>Группа</span>
+								<span>Общее время</span>
+							</div>
+							<div class="rates__tr">
+								<span>01</span>
+								<span>Oreo-team</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>02</span>
+								<span>Команда Шоколада</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>03</span>
+								<span>Ванильные Чемпионы</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+							<div class="rates__tr">
+								<span>04</span>
+								<span>TOP Oreos</span>
+								<span>01:23:23</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="frame frame-game-start frame-game-start--win" hidden>
+					<div class="frame__game-start__bg">
+						<img src="img/frames/game-start/bg/1.png" alt="bg">
+					</div>
+					<div class="frame__game-start__title title">
+						Отлично, игра успешно<br> завершена!
+					</div>
+					<div class="frame__game-start-img">
+						<img src="img/frames/game-start/gameover.png" alt="win">
+					</div>
+					<br>
+					<div class="frame__game-start__title title frame__game-start__title--big">
+						А Вы внесли<br> вклад в <span>12 тыс.</span><br> <span>тонн</span> объема<br> продаж OREO<br>в 2023 году?
+					</div>
+					<br>
+					<br>
+					<button class="button">Продолжить Играть</button>
+				</div>
+				
 			</div>
 		</div>
-		<div class="game">
-			
-		</div>
-		<div class="frames">
-			 <div class="frame frame-hello" >
-				<div class="frame-hello__img">
-					<img src="img/frames/f1-img.png" alt="oreo">
-				</div>
-				<div class="frame-hello__title">Привет! <br>Добро пожаловать <br>в идеальный<br> магазин Oreo!</div>
-				<p>
-					Здесь мы в игровой форме посоревнуемся командами и выполним задачи, которые приведут к росту доли OREO.
-				</p>
-				<p>
-					Мы вместе внесем вклад в рост доли рынка OREO в 2023 году! Выполним все sales KPIsи создадим идеальный магазин OREO, заработав баллы для своей команды! 
-				</p>
-				<p>Удачи!</p>
-				<button class="button"> Начать </button>
-			 </div>
-			 <div class="frame frame-reg" >
-				<p>Введите свои данные для бейджа.<br> Он поможет другим участникам узнать вас при встрече в идеальном магазине OREO.</p>
-				<form novalidate="novalidate">
-					<input type="text" placeholder="Имя" name="name" required>
-					<input type="text" placeholder="Фамилия" name="surname" required>
-					<input type="text" placeholder="E-mail" name="email" required>
-
-					<button class="button" type="submit">Сделано 👍</button>
-				</form>
-			 </div>
-			 <div class="frame frame-team">
-				<div class="frame-team__title title">Отлично! <br>вы в команде -<br>"Ванильные Чемпионы"</div>
-				<p>
-					Ваша задача: пройти игры на время. Чем быстрее задание выполнено — тем лучше.
-				</p>
-				<div class="frame-team__box">
-					<img src="img/frames/team/img.png" alt="sign">
-					<p>
-						За каждую ошибку вам <br>прибавляется <span>+5 секунд</span> к зачету.
-					</p>
-					<p>
-						Всего у вас есть 3 права на ошибку.<br>При трёх неудачных попытках- штраф: <br>+3 минуты к зачету и завершение игры.
-					</p>
-				</div>
-				<button class="button">Скорее к приключениям 👍</button>
-			 </div>
-		</div>
-	</div>
-	<script src="libs/jquery-3.5.1.min.js"></script>
-	<script src="libs/jquery.inputmask.min.js"></script>
-	<script src="libs/jquery.validate.min.js"></script>
-	<script src="js/main.js"></script>
-</body>
+		<script src="libs/jquery-3.5.1.min.js"></script>
+		<script src="libs/jquery.inputmask.min.js"></script>
+		<script src="libs/jquery.validate.min.js"></script>
+		<script src="js/main.js"></script>
+	</body>
 </html>
