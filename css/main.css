@@ -38,10 +38,11 @@ html{
 .frames {
 }
 
-.frame{
+.frame {
 	min-height: 568px;
 	background-color: #055EB0;
 	text-align: center;
+	overflow: hidden;
 }
 .frame-hello {
 	min-height: 568px;
