@@ -67,3 +67,46 @@ function maskInit() {
 
 maskInit();
 checkValidate();
+
+const framesTl = gsap.timeline();
+const showFrame = (dataId) => {
+	
+}
+
+const buttons = document.querySelectorAll('[data-frame-link]');
+[...buttons].forEach(b => {
+	b.addEventListener('click', () => {
+		framesTl.to(b, {
+			opacity: 1,
+		})
+	})
+})
+
+
+const countDown = new Countdown();
+const stopwatch = new Stopwatch("stopwatch");
+// stopwatch.start();
+
+// countDown.start(() => {
+// 	stopwatch.start();
+// })
+
+// const tl.
+
+// function showFrame() 
+
+
+new Game(
+	document.getElementById('game1'),
+	{
+		onWin: () => {
+			console.log('game win')
+		}, 
+
+		onLose: (game) => {
+			console.log('game lose')
+			game.reset();
+			console.log(game)
+		}
+	}
+);
