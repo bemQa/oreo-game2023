@@ -145,6 +145,19 @@
 	-webkit-text-stroke: .6px #fff;
 }
 
+.my-team .rates__tr-wrap span:nth-child(2)::after {
+	content: '•';
+    display: inline-flex;
+    margin-left: 10px;
+    font-size: 50px;
+    line-height: 10px;
+    color: #00FF1A;
+}
+
+.my-team .subrates__tr-wrap span:nth-child(2)::after {
+	display: none;
+}
+
 .subrates__tr-wrap {
 	position: absolute;
 	top: 0;
@@ -156,6 +169,7 @@
 	opacity: 0;
 	pointer-events: none;
 	transition: all .3s ease;
+	z-index: 1;
 }
 
 .active .subrates__tr-wrap {
@@ -268,6 +282,11 @@
 
 	.rates__tr-wrap span:first-child {
 		font-size: 24px;
+	}
+
+	.my-team .rates__tr-wrap span:nth-child(2)::after {
+		font-size: 40px;
+		line-height: 4px;
 	}
 
 	.rates__tr.active {
