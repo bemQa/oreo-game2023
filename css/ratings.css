@@ -196,6 +196,7 @@
 
 .subrates__title span {
 	position: absolute;
+	top: 0;
 	right: 0;
 }
 

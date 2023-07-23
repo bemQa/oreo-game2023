@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="fonts/fonts.css">
 		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/validation.css">
 	</head>
 	<body>
 		<div class="wrap">
@@ -136,11 +137,17 @@
 				<div class="frame frame-reg" data-frame="reg">
 					<p>Введите свои данные для бейджа.<br> Он поможет другим участникам узнать
 						вас при встрече в идеальном магазине OREO.</p>
+					<div class="form__error">Описание ошибки</div>
 					<form novalidate="novalidate">
-						<input type="text" placeholder="Имя" name="name" required>
-						<input type="text" placeholder="Фамилия" name="surname" required>
-						<input type="text" placeholder="E-mail" name="email" required>
-
+						<div class="input-field">
+							<input type="text" placeholder="Имя" name="name" required>
+						</div>
+						<div class="input-field">
+							<input type="text" placeholder="Фамилия" name="surname" required>
+						</div>
+						<div class="input-field">
+							<input type="text" placeholder="E-mail" name="email" required>
+						</div>
 						<button class="button" type="submit">Сделано 👍</button>
 					</form>
 				</div>
