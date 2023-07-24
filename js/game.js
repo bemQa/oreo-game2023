@@ -38,7 +38,7 @@ class Game {
 				bg.appendChild(item);
 				moveAt(e);
 	
-				item.style.zIndex = 1000; // над другими элементами
+				item.style.zIndex = 100; // над другими элементами
 	
 				function moveAt(e) {
 					item.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
@@ -98,7 +98,7 @@ class Game {
 	}
 
 	reset(){
-		// this.itemsOnTest = [];
+		this.itemsOnTest = [];
 		
 	}
 	

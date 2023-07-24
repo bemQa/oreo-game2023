@@ -73,6 +73,14 @@ class Stopwatch {
 		}
 	  }
 	}
+
+	getSeconds(){
+		const str = this.formatTime(this.value).split(':');
+		const m = parseInt(str[0]); 
+		const s = parseInt(str[1]);
+		const res = (m * 60) + s;
+		return res
+	}
 	
 	stop() {
 		if (this.state=="running") {

@@ -9,19 +9,19 @@
 		<link rel="stylesheet" href="fonts/fonts.css">
 		<link rel="stylesheet" href="css/main.css">
 	</head>
-	<body>
+	<body style="opacity: 0;">
 		<div class="wrap">
 			<div class="overlay">
 				<div class="logo">
 					<!-- <img src="img/logo.png" alt="logo"> -->
-					<div class="stopwatch">
+					<!-- <div class="stopwatch">
 						<div class="stopwatch__inner">
 							<div class="stopwatch__digits" id="stopwatch">00:00:00</div>
 						</div>
 						<div class="stopwatch__info">
 							Штрафное время добавлено
 						</div>
-					</div>
+					</div> -->
 				</div>
 				<div class="countdown">
 					<div class="countdown__item">3</div>
@@ -30,7 +30,7 @@
 				</div>
 
 				<div class="game-ovelay">
-					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game1-lose">
+					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game1-lose" data-overlay="game1Lose">
 						<div class="game-ovelay__box">
 							<div class="game-ovelay__button-close error">
 								<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44" fill="none">
@@ -43,12 +43,54 @@
 							<button class="game-ovelay__button button">Сыграть снова</button>
 						</div>
 					</div>
-					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game1-win">
+					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game2-lose" data-overlay="game2Lose">
+						<div class="game-ovelay__box">
+							<div class="game-ovelay__button-close error">
+								<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44" fill="none">
+									<circle cx="22" cy="22" r="22" fill="#E80505"/>
+									<path d="M14 14L30 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+									<path d="M14 30L30 14" stroke="white" stroke-width="3" stroke-linecap="round"/>
+								</svg>
+							</div>
+							<div class="game-ovelay__title title">Хорошая попытка, но… Кажется, <br>дисплеи и навески  стоят не там.<br> Попробуйте  по-другому!</div>
+							<button class="game-ovelay__button button">Сыграть снова</button>
+						</div>
+					</div>
+					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game3-lose" data-overlay="game3Lose">
+						<div class="game-ovelay__box">
+							<div class="game-ovelay__button-close error">
+								<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44" fill="none">
+									<circle cx="22" cy="22" r="22" fill="#E80505"/>
+									<path d="M14 14L30 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+									<path d="M14 30L30 14" stroke="white" stroke-width="3" stroke-linecap="round"/>
+								</svg>
+							</div>
+							<div class="game-ovelay__title title">Хорошая попытка, но…<br> Кажется, план неправильный.<br> Попробуйте по-другому!<br> Попробуйте  по-другому!</div>
+							<button class="game-ovelay__button button">Сыграть снова</button>
+						</div>
+					</div>
+					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game1-win" data-overlay="game1Win">
 						<div class="game-ovelay__title-top title">Великолепно! Такая красивая <br> стена OREO, ещё и с разными<br> вкусами, так и должна выглядеть<br> идеальная полка Oreo</div>
 						<div class="game-ovelay__box">
 							<img class="game-ovelay__img" src="img/overaly/1.png" alt="img">
 							<div class="game-ovelay__title title">Не забывайте правило <br>ассортимента - «Oreo – твердый<br> хорошист!». 3 вкуса 95g и 1 вкус<br> 228g в каждой точке!</div>
-							<button class="game-ovelay__button button">Сыграть снова</button>
+							<button class="game-ovelay__button button" data-frame-link="game1-winframe">Продолжить</button>
+						</div>
+					</div>
+					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game2-win" data-overlay="game2Win">
+						<div class="game-ovelay__title-top title">Отличная работа!</div>
+						<div class="game-ovelay__box">
+							<img class="game-ovelay__img" src="img/overaly/2.png" alt="img">
+							<div class="game-ovelay__title title">Сделайте свой вклад в рост<br> представленности OREO – 49К<br> дисплеев <span>(+40% к 2022)</span></div>
+							<button class="game-ovelay__button button" data-frame-link="game3Rules">Продолжить</button>
+						</div>
+					</div>
+					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game3-win" data-overlay="game3Win">
+						<div class="game-ovelay__title-top title">Отличная работа!</div>
+						<div class="game-ovelay__box">
+							<img class="game-ovelay__img" src="img/overaly/3.png" alt="img">
+							<div class="game-ovelay__title title">Потрясающе! Вы- гуру<br> идеального планирования!</div>
+							<button class="game-ovelay__button button" data-frame-link="game3-winframe">Продолжить</button>
 						</div>
 					</div>
 				</div>
@@ -58,6 +100,118 @@
 			</div>
 			<div class="games">
 				<div class="game" id="game1">
+					<div class="game__inner">
+						<div class="game-main ">
+							<div class="game-main__bg" style="background: url(img/games/game1/bg.jpg);">
+								<!-- <img src="img/games/game1/bg.jpg" alt="game-bg"> -->
+							</div>
+							<div class="game-main__hitboxes">
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 160px;
+								left: 119px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 160px;
+								left: 171px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 203px;
+								left: 118px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 203px;
+								left: 170px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 248px;
+								left: 117px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 248px;
+								left: 178px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="
+								border-color: red;
+								top: 294px;
+								left: 119px;
+								"></div>
+								<div class="game-hitbox" data-hitbox="0" style="
+								border-color: red;
+								top: 294px;
+								left: 178px;
+								"></div>
+								<!-- <div class="game-hitbox"></div>
+								<div class="game-hitbox"></div>
+								<div class="game-hitbox"></div>
+								<div class="game-hitbox"></div>
+								<div class="game-hitbox"></div> -->
+							</div>
+						</div>
+						<div class="game-drags">
+							<!-- <div class="game-drags__item" style="background-color: rgb(50, 180, 104);" data-item="0">
+								<img src="img/games/game1/1.png" alt="game-item">
+							</div> -->
+							<div class="game-drags__item" style="background-color: red;" data-item="g95">
+								<img src="img/games/game1/1.png" alt="game-item">
+							</div>
+							<div class="game-drags__item" style="background-color: blue;" data-item="g228">
+								<img src="img/games/game1/1.png" alt="game-item">
+							</div>
+							<div class="game-drags__item" style="background-color: green;" data-item="g95">
+								<img src="img/games/game1/1.png" alt="game-item">
+							</div>
+							<div class="game-drags__item" style="background-color: green;" data-item="g95">
+								<img src="img/games/game1/1.png" alt="game-item">
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="game" id="game2">
+					<div class="game__inner">
+						<div class="game-main ">
+							<div class="game-main__bg" style="background: url(img/games/game1/bg.jpg);">
+								<!-- <img src="img/games/game1/bg.jpg" alt="game-bg"> -->
+							</div>
+							<div class="game-main__hitboxes">
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 160px;
+								left: 119px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 160px;
+								left: 171px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 203px;
+								left: 118px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 203px;
+								left: 170px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 248px;
+								left: 117px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 248px;
+								left: 178px;"></div>
+								<div class="game-hitbox" data-hitbox="0" style="
+								border-color: red;
+								top: 294px;
+								left: 119px;
+								"></div>
+								<div class="game-hitbox" data-hitbox="0" style="
+								border-color: red;
+								top: 294px;
+								left: 178px;
+								"></div>
+								<!-- <div class="game-hitbox"></div>
+								<div class="game-hitbox"></div>
+								<div class="game-hitbox"></div>
+								<div class="game-hitbox"></div>
+								<div class="game-hitbox"></div> -->
+							</div>
+						</div>
+						<div class="game-drags">
+							<!-- <div class="game-drags__item" style="background-color: rgb(50, 180, 104);" data-item="0">
+								<img src="img/games/game1/1.png" alt="game-item">
+							</div> -->
+							<div class="game-drags__item" style="background-color: red;" data-item="g95">
+								<img src="img/games/game1/1.png" alt="game-item">
+							</div>
+							<div class="game-drags__item" style="background-color: blue;" data-item="g228">
+								<img src="img/games/game1/1.png" alt="game-item">
+							</div>
+							<div class="game-drags__item" style="background-color: green;" data-item="g228">
+								<img src="img/games/game1/1.png" alt="game-item">
+							</div>
+							<div class="game-drags__item" style="background-color: green;" data-item="g95">
+								<img src="img/games/game1/1.png" alt="game-item">
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="game" id="game3">
 					<div class="game__inner">
 						<div class="game-main ">
 							<div class="game-main__bg" style="background: url(img/games/game1/bg.jpg);">
@@ -115,7 +269,7 @@
 				</div>
 			</div>
 			<div class="frames">
-				<div class="frame frame-hello" >
+				<div class="frame frame-hello" data-frame="start">
 					<div class="frame-hello__img">
 						<img src="img/frames/f1-img.png" alt="oreo">
 					</div>
@@ -141,10 +295,10 @@
 						<input type="text" placeholder="Фамилия" name="surname" required>
 						<input type="text" placeholder="E-mail" name="email" required>
 
-						<button class="button" type="submit">Сделано 👍</button>
+						<button class="button" data-frame-link="team" type="submit">Сделано 👍</button>
 					</form>
 				</div>
-				<div class="frame frame-team" >
+				<div class="frame frame-team" data-frame="team">
 					<div class="frame-team__title title">Отлично! <br>вы в команде -<br>"Ванильные Чемпионы"</div>
 					<p>
 						Ваша задача: пройти игры на время. Чем быстрее задание выполнено — тем
@@ -160,9 +314,9 @@
 							штраф: <br>+3 минуты к зачету и завершение игры.
 						</p>
 					</div>
-					<button class="button">Скорее к приключениям 👍</button>
+					<button class="button" data-frame-link="rulesGame1">Скорее к приключениям 👍</button>
 				</div>
-				<div class="frame frame-game-start frame-game-start--first" >
+				<div class="frame frame-game-start frame-game-start--first" data-frame="rulesGame1">
 					<div class="frame__game-start__bg">
 						<img src="img/frames/game-start/bg/1.png" alt="bg">
 					</div>
@@ -173,9 +327,9 @@
 					<p>
 						Ваша задача: собрать целую синюю стену и создать идеальную полку OREO. Скорее раскладывай OREO на полке и не забывайте про приоритеты по ассортименту!
 					</p>
-					<button class="button">Начать</button>
+					<button class="button" data-game-link="game1">Начать</button>
 				</div>
-				<div class="frame frame-game-start frame-game-start--second" >
+				<div class="frame frame-game-start frame-game-start--second" data-frame="game2Rules">
 					<div class="frame__game-start__bg">
 						<img src="img/frames/game-start/bg/2.png" alt="bg">
 					</div>
@@ -190,9 +344,9 @@
 					</p>
 					<br>
 					<br>
-					<button class="button">Начать</button>
+					<button class="button" data-game-link="game2">Начать</button>
 				</div>
-				<div class="frame frame-game-start frame-game-start--third" >
+				<div class="frame frame-game-start frame-game-start--third" data-frame="game3Rules">
 					<div class="frame__game-start__bg">
 						<img src="img/frames/game-start/bg/3.png" alt="bg">
 					</div>
@@ -206,9 +360,9 @@
 						Ваша задача: Верно перетащить<br> соответствующие инструменты <br>в правильные периоды.
 					</p>
 					<br>
-					<button class="button">Начать</button>
+					<button class="button" data-game-link="game3">Начать</button>
 				</div>
-				<div class="frame frame-game-start frame-game-start--final" >
+				<div class="frame frame-game-start frame-game-start--final" data-frame="game3-winframe">
 					<div class="frame__game-start__bg">
 						<img src="img/frames/game-start/bg/final.png" alt="bg">
 					</div>
@@ -224,9 +378,9 @@
 					<br>
 					<br>
 					<br>
-					<button class="button">Начать</button>
+					<button class="button" data-frame-link="ratings">Начать</button>
 				</div>
-				<div class="frame frame-game-start frame-game-start--rating" >
+				<div class="frame frame-game-start frame-game-start--rating" data-frame="ratings">
 					<div class="frame__game-start__bg">
 						<img src="img/frames/game-start/bg/ratings.png" alt="bg">
 					</div>
@@ -346,7 +500,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="frame frame-game-start frame-game-start--win" >
+				<div class="frame frame-game-start frame-game-start--win" data-frame="game1-winframe">
 					<div class="frame__game-start__bg">
 						<img src="img/frames/game-start/bg/1.png" alt="bg">
 					</div>
@@ -362,7 +516,7 @@
 					</div>
 					<br>
 					<br>
-					<button class="button">Продолжить Играть</button>
+					<button class="button" data-frame-link="game2Rules">Продолжить Играть</button>
 				</div>
 				
 			</div>
@@ -371,6 +525,7 @@
 		<script src="libs/jquery.inputmask.min.js"></script>
 		<script src="libs/jquery.validate.min.js"></script>
 		<script src="libs/gsap.min.js"></script>
+		<script src="js/frames.js"></script>
 		<script src="js/timer.js"></script>
 		<script src="js/game.js"></script>
 		<script src="js/main.js"></script>
