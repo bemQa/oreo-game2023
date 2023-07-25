@@ -99,6 +99,7 @@ class AppFrames {
 
 		this.tl.to(overlay, {
 			opacity: 1,
+			duration: 0,
 		})
 		overlay.classList.add('active');
 	}

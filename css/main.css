@@ -49,6 +49,7 @@ html{
 }
 .games{
 	overflow: hidden;
+	/* opacity: 0; */
 }
 .game {
 	pointer-events: none;
@@ -769,13 +770,23 @@ form span.error {
 .game-slider{
 	margin-bottom: 33px;
 }
-.game-drags__item{
+#game1 .game-hitbox {
+	border: 2px solid;
+	transform: scale(1.3, 1.5);
+}
 
+#game1 .game-drags__item{
+	opacity: 0;
 }
-.slick-list{
-	/* height: 100px; */
-	/* background-color: rgba(176, 1, 85, 0.15); */
+#game1 .game-drags__item.active{
+	opacity: 1;
 }
+#game1 .game-drags__item.game-drags__item--tall img{
+	/* opacity: .3; */
+	height: 48px;
+	top: -32px;
+}
+
 .slick-arrow{
 	position: absolute;
 	top: 30px;
@@ -816,13 +827,37 @@ form span.error {
 }
 
 .slick-slide{
+}
+.game-slider__slide{
+	/* display: flex;
+	align-items: center;
+	justify-content: center; */
+	height: 100%;
+}
+.game-slider__slide > div {
 	width: 124px;
+	background: #08b3746e;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.game-slider__slide img {
+	max-width: 100%;
 }
 
-.game-slider__slide div {
-	/* width: 124px; */
-	background: #08b3746e;
+.game-slider__slide.active{
+	opacity: .5;
+	pointer-events: none;
 }
+/* .slick-track{
+	height: 100%;
+} */
+
+.game-drags{
+	z-index: 0;
+}
+
 #game2 .game-drags__title {
 	font-size: 12px;
 	margin-bottom: 15px;

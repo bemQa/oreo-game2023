@@ -72,9 +72,9 @@ checkValidate();
 $('.game-slider').eq(0).slick({
 	buttons: false,
 	dots: true,
-	// centerMode: true,
+	centerMode: true,
 	// centerPadding: "45px",
-	slidesToShow: 3,
+	slidesToShow: 1,
 });
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -113,9 +113,9 @@ window.frames = appFrames
 
 switchLogo('logo');
 appFrames.hideOverlay();
-// appFrames.showFrame('start');
+appFrames.showFrame('start');
 // appFrames.showFrame('game3Rules');
-appFrames.showGame('game1')
+// appFrames.showGame('game1')
 // appFrames.showOverlay('game3Win')
 // appFrames.showFrame('game1-winframe');
 
@@ -181,7 +181,7 @@ const game1 = new Game(
 
 		onGameOver: () => {
 			console.log('game over!');
-			appFrames.showOverlay('game1Lose');
+			appFrames.showOverlay('game1GameOver');
 			stopwatch.addSeconds(60);
 			stopwatch.stop();
 		}

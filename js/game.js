@@ -4,17 +4,22 @@ class Game {
 	hitboxes;
 	items;
 	itemsOnTest = [];
-	lives = 3;
+	lives = 2;
 	settings = {
 		onWin: null,
 		onLose: null,
 		onGameOver: null,
 	};
+	activeItems = [];
 	constructor(root, settings){
 		this.root = root;
 		this.nodeDragArea = root.querySelector('.game-main__drag-area')
 		this.hitboxes = root.querySelectorAll('.game-hitbox');
 		this.items = root.querySelectorAll('.game-drags__item');
+		const filteredSliderItems = [...root.querySelectorAll('.game-slider__slide')].filter(si => {
+			return !si.classList.contains('slick-cloned');
+		});
+		this.sliderItems = filteredSliderItems
 
 		this.settings = settings;
 		this.init();
@@ -27,38 +32,46 @@ class Game {
 		const bg = this.root.querySelector('.game-main__bg');
 		const gameFrameBox = this.root.querySelector('.game-main').getBoundingClientRect();
 		const hitTest = this.hitTest.bind(this);
-		[...this.items].forEach(item => {
-			item.onmousedown = function(e) {
-				console.log(e)
-				let itemCoords = getCoords(item);
-				let shiftX = e.clientX;
-  				let shiftY = e.pageY - itemCoords.top;
+		const items = [...this.items];
+		console.log(this.sliderItems);
+		const activeItems = this.activeItems;
+
+		[...this.sliderItems].forEach((sliderItem, i) => {
+			sliderItem.onmousedown = function(e) {
+				const itemToDrag = items[i];
+				
+				itemToDrag.classList.add('active');
+				sliderItem.classList.add('active');
+
+				let itemCoords = getCoords(itemToDrag);
 				console.log(e.clientX, itemCoords, gameFrameBox)
 	
-				item.style.position = 'absolute';
-				bg.appendChild(item);
+				itemToDrag.style.position = 'absolute';
+				bg.appendChild(itemToDrag);
 				moveAt(e);
-	
-				// item.style.zIndex = 100; // над другими элементами
-	
+
 				function moveAt(e) {
-					item.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
-					item.style.top = e.pageY - shiftY + 'px';
+					itemToDrag.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+					itemToDrag.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
 				}
 	
 				document.onmousemove = function(e) {
 					moveAt(e);
 				};
 	
-				item.onmouseup = function() {
-					hitTest(item);
+				itemToDrag.onmouseup = function(e) {
+					
+					activeItems.push(itemToDrag);
+					initItemDragsBg()
+					
+					hitTest(itemToDrag);
 					document.onmousemove = null;
-					item.onmouseup = null;
+					sliderItem.onmouseup = null;
 				};
 	
 			}
 	
-			item.ondragstart = function() {
+			sliderItem.ondragstart = function() {
 				return false;
 			};
 	
@@ -67,7 +80,49 @@ class Game {
 				return box;
 			}
 
-		})
+		});
+
+
+		function initItemDragsBg() {
+			[...activeItems].forEach((itemToDrag, i) => {
+				itemToDrag.onmousedown = function(e) {
+	
+					let itemCoords = getCoords(itemToDrag);
+					console.log(e.clientX, itemCoords, gameFrameBox)
+		
+					itemToDrag.style.position = 'absolute';
+					bg.appendChild(itemToDrag);
+					moveAt(e);
+	
+					function moveAt(e) {
+						itemToDrag.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+						itemToDrag.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+					}
+		
+					document.onmousemove = function(e) {
+						moveAt(e);
+					};
+		
+					itemToDrag.onmouseup = function(e) {
+						console.log('onmouseup')
+						hitTest(itemToDrag);
+						document.onmousemove = null;
+						itemToDrag.onmouseup = null;
+					};
+		
+				}
+		
+				itemToDrag.ondragstart = function() {
+					return false;
+				};
+		
+				function getCoords(elem) {
+					let box = elem.getBoundingClientRect();
+					return box;
+				}
+	
+			})
+		}
 	}
 
 	hitTest(item){
@@ -76,6 +131,7 @@ class Game {
 			const hRect = h.getBoundingClientRect();
 			const iRect = item.getBoundingClientRect()
 			if(this.findContainment(iRect, hRect) == 'contained'){
+				console.log('in box', h)
 				this.itemsOnTest.push(item.dataset.item)
 				this.checkWin();
 			}
@@ -86,6 +142,7 @@ class Game {
 	checkWin(){
 		this.itemsOnTest.sort();
 		const winCondition = ['g228', 'g95', 'g95', 'g95'];
+		
 		console.log(this.itemsOnTest)
 		if(this.itemsOnTest.length != winCondition.length){
 			return
@@ -95,21 +152,22 @@ class Game {
 			this.settings.onWin(this);
 		} else {
 			this.checkGameOver();
-			this.settings.onLose(this);
 		}
 	}
 
 	restart(){
 		this.itemsOnTest = [];
+		[...this.items].forEach(item => item.classList.remove('active'));
+		[...this.sliderItems].forEach(item => item.classList.remove('active'));
 		
 	}
 
 	checkGameOver(){
 		this.lives -= 1;
 		if(this.lives <= 0){
-			if(this.settings.onGameOver){
-				this.settings.onGameOver();
-			}
+			this.settings.onGameOver();
+		} else {
+			this.settings.onLose(this);
 		}
 	}
 	
@@ -212,8 +270,6 @@ class Game2 {
 			item.onmousedown = function(e) {
 				console.log(e)
 				let itemCoords = getCoords(item);
-				let shiftX = e.clientX;
-  				let shiftY = e.clientY;
 				console.log(e.clientX, itemCoords, gameFrameBox)
 	
 				item.style.position = 'absolute';
