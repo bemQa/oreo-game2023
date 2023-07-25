@@ -12,6 +12,7 @@ class AppFrames {
 	tl = gsap.timeline();
 	overlayRoot = document.querySelector('.overlay');
 	framesRoot = document.querySelector('.frames');
+	overlayTempClass = 'initial-ovelay';
 
 	constructor(settings){
 		this.settings.frames = settings.frames;
@@ -23,6 +24,7 @@ class AppFrames {
 
 	init() {
 		this.initOverlays();
+		this.overlayRoot.classList.add(this.overlayTempClass)
 		this.initFrames();
 	}
 
@@ -91,7 +93,9 @@ class AppFrames {
 
 	showOverlay(datasetId){
 		this.hideOverlay();
+		this.overlayTempClass = 'overlay--' + datasetId
 		this.overlayRoot.classList.add('active')
+		this.overlayRoot.classList.add(this.overlayTempClass);
 		const overlay = this.store.overlays[datasetId];
 		if(!overlay){
 			return console.error('not found: ' + datasetId)
@@ -105,6 +109,7 @@ class AppFrames {
 	}
 
 	hideOverlay(){
+		this.overlayRoot.classList.remove(this.overlayTempClass)
 		this.overlayRoot.classList.remove('active')
 		const overlays = Object.values(this.store.overlays);
 		this.tl.to(overlays, {

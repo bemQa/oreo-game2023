@@ -12,7 +12,7 @@
 	</head>
 	<body style="opacity: 0;">
 		<div class="wrap">
-			<div class="overlay">
+			<div class="overlay initial-ovelay">
 				<div class="logo">
 					<img src="img/logo.png" alt="logo">
 				</div>
@@ -92,7 +92,7 @@
 									<path d="M14 30L30 14" stroke="white" stroke-width="3" stroke-linecap="round"/>
 								</svg>
 							</div>
-							<div class="game-ovelay__title title">Хорошая попытка, но…<br> Кажется, план неправильный.<br> Попробуйте по-другому!<br> Попробуйте  по-другому!</div>
+							<div class="game-ovelay__title title">Хорошая попытка, но…<br> Кажется, план неправильный.<br> Попробуйте по-другому!</div>
 							<button class="game-ovelay__button button" data-game-action="restart3">Сыграть снова</button>
 						</div>
 					</div>
@@ -268,55 +268,175 @@
 					<div class="game__inner">
 						<div class="game-main ">
 							<div class="game-main__bg" style="background: url(img/games/game3/bg.jpg);">
-								<!-- <img src="img/games/game1/bg.jpg" alt="game-bg"> -->
+								
 							</div>
 							<div class="game-main__hitboxes">
-								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 160px;
-								left: 119px;"></div>
-								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 160px;
-								left: 171px;"></div>
-								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 203px;
-								left: 118px;"></div>
-								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 203px;
-								left: 170px;"></div>
-								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 248px;
-								left: 117px;"></div>
-								<div class="game-hitbox" data-hitbox="0" style="border-color: red; top: 248px;
-								left: 178px;"></div>
-								<div class="game-hitbox" data-hitbox="0" style="
-								border-color: red;
-								top: 294px;
-								left: 119px;
-								"></div>
-								<div class="game-hitbox" data-hitbox="0" style="
-								border-color: red;
-								top: 294px;
-								left: 178px;
-								"></div>
-								<!-- <div class="game-hitbox"></div>
-								<div class="game-hitbox"></div>
-								<div class="game-hitbox"></div>
-								<div class="game-hitbox"></div>
-								<div class="game-hitbox"></div> -->
+								<div class="greens">
+									<div class="game-hitbox" data-hitbox="1" style="
+									border-color: greenyellow;
+									top: 86px;
+									left: 73px;
+									height: 20px;
+									width: 229px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="1" style="
+									border-color: greenyellow;
+									top: 179px;
+									left: 73px;
+									height: 20px;
+									width: 229px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="1" style="
+									border-color: greenyellow;
+									top: 272px;
+									left: 73px;
+									height: 20px;
+									width: 229px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="1" style="
+									border-color: greenyellow;
+									top: 365px;
+									left: 73px;
+									height: 20px;
+									width: 229px;
+									"></div>
+									
+								</div>
+								<div class="reds">
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 125px;
+									left: 18px;
+									width: 89px;
+									height: 37px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 248px;
+									left: 178px;
+									top: 125px;
+									left: 114px;
+									width: 89px;
+									height: 37px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 294px;
+									left: 119px;
+									top: 125px;
+									left: 212px;
+									width: 89px;
+									height: 37px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 219px;
+									left: 18px;
+									width: 89px;
+									height: 37px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 248px;
+									left: 178px;
+									top: 219px;
+									left: 114px;
+									width: 89px;
+									height: 37px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 294px;
+									left: 119px;
+									top: 219px;
+									left: 212px;
+									width: 89px;
+									height: 37px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 313px;
+									left: 18px;
+									width: 89px;
+									height: 37px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 248px;
+									left: 178px;
+									top: 313px;
+									left: 114px;
+									width: 89px;
+									height: 37px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 294px;
+									left: 119px;
+									top: 313px;
+									left: 212px;
+									width: 89px;
+									height: 37px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 401px;
+									left: 18px;
+									width: 89px;
+									height: 37px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 248px;
+									left: 178px;
+									top: 401px;
+									left: 114px;
+									width: 89px;
+									height: 37px;
+									"></div>
+									<div class="game-hitbox" data-hitbox="0" style="
+									border-color: red;
+									top: 294px;
+									left: 119px;
+									top: 401px;
+									left: 212px;
+									width: 89px;
+									height: 37px;
+									"></div>
+								</div>
 							</div>
 						</div>
 						<div class="game-drags">
-							<!-- <div class="game-drags__item" style="background-color: rgb(50, 180, 104);" data-item="0">
-								<img src="img/games/game1/1.png" alt="game-item">
-							</div> -->
-							<div class="game-drags__item" style="background-color: red;" data-item="g95">
-								<img src="img/games/game1/1.png" alt="game-item">
+							<div class="game-drags__title title">Перетяните дисплеи и навески в правильные категории</div>
+							<div class="game-slider-wrap">
+								<div class="game-slider">
+									<div class="game-slider__slide">
+										<div>
+											<img src="img/games/game3/1.png" alt="1">
+										</div>
+									</div>
+									<div class="game-slider__slide">
+										<div>
+											<img src="img/games/game3/2.png" alt="2">
+										</div>
+									</div>
+									<div class="game-slider__slide">
+										<div>
+											<img src="img/games/game3/3.png" alt="3">
+										</div>
+									</div>
+								</div>
 							</div>
-							<div class="game-drags__item" style="background-color: blue;" data-item="g228">
-								<img src="img/games/game1/1.png" alt="game-item">
+							<div class="game-drags__item" style="background-color: green;" data-item="top-a" data-num-clones="4" data-hittest="1">
+								<img src="img/games/game3/1.png" alt="game-item">
 							</div>
-							<div class="game-drags__item" style="background-color: green;" data-item="g228">
-								<img src="img/games/game1/1.png" alt="game-item">
+							<div class="game-drags__item" style="background-color: green;" data-item="reg-promo" data-num-clones="12" data-hittest="0">
+								<img src="img/games/game3/2.png" alt="game-item">
 							</div>
-							<div class="game-drags__item" style="background-color: green;" data-item="g95">
-								<img src="img/games/game1/1.png" alt="game-item">
+							<div class="game-drags__item game-drags__item--tall" style="background-color: green;" data-item="loyal" data-num-clones="2" data-hittest="2">
+								<img src="img/games/game3/3.png" alt="game-item">
 							</div>
-							
+							<button class="button">Проверить</button>
 						</div>
 					</div>
 				</div>

@@ -68,12 +68,11 @@ function maskInit() {
 maskInit();
 checkValidate();
 
-// $('.game-drags-slider').eq(0).slick();
-$('.game-slider').eq(0).slick({
+$('.game-slider').slick({
 	buttons: false,
 	dots: true,
 	centerMode: true,
-	// centerPadding: "45px",
+	// centerPadding: "65px",
 	slidesToShow: 1,
 });
 
@@ -115,7 +114,7 @@ switchLogo('logo');
 appFrames.hideOverlay();
 appFrames.showFrame('start');
 // appFrames.showFrame('game3Rules');
-// appFrames.showGame('game1')
+// appFrames.showGame('game3')
 // appFrames.showOverlay('game3Win')
 // appFrames.showFrame('game1-winframe');
 
@@ -209,7 +208,7 @@ const game2 = new Game2(
 	}
 );
 
-const game3 = new Game(
+const game3 = new Game3(
 	document.getElementById('game3'),
 	{
 		onWin: () => {
@@ -219,6 +218,13 @@ const game3 = new Game(
 		onLose: (game) => {
 			console.log('game lose')
 			appFrames.showOverlay('game3Lose');
+		},
+
+		onGameOver: () => {
+			console.log('game over!');
+			appFrames.showOverlay('game1GameOver');
+			stopwatch.addSeconds(60);
+			stopwatch.stop();
 		}
 	}
 );
