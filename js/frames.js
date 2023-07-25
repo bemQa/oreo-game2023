@@ -17,7 +17,6 @@ class AppFrames {
 		this.settings.frames = settings.frames;
 		this.settings.overlays = settings.overlays;
 		this.settings.games = settings.games;
-		console.log('init')
 		this.init();
 
 	}
@@ -25,7 +24,6 @@ class AppFrames {
 	init() {
 		this.initOverlays();
 		this.initFrames();
-		console.log(this.store.frames)
 	}
 
 	showGame(id){
@@ -36,7 +34,7 @@ class AppFrames {
 
 		game.classList.add('active');
 		this.tl.to(game, {
-			duration: 3,
+			// duration: ,
 			opacity: 1,
 		});
 	}
@@ -71,7 +69,6 @@ class AppFrames {
 		this.framesRoot.classList.remove('active');
 		const frames = Object.values(this.store.frames);
 		frames.forEach(o => o.classList.remove('active'));
-		console.log(frames)
 		this.tl.set(frames, {
 			opacity: 0,
 		});
@@ -96,7 +93,6 @@ class AppFrames {
 		this.hideOverlay();
 		this.overlayRoot.classList.add('active')
 		const overlay = this.store.overlays[datasetId];
-		console.log(overlay)
 		if(!overlay){
 			return console.error('not found: ' + datasetId)
 		}
@@ -105,13 +101,12 @@ class AppFrames {
 			opacity: 1,
 		})
 		overlay.classList.add('active');
-		console.log(datasetId)
 	}
 
 	hideOverlay(){
 		this.overlayRoot.classList.remove('active')
 		const overlays = Object.values(this.store.overlays);
-		this.tl.set(overlays, {
+		this.tl.to(overlays, {
 			opacity: 0,
 		});
 		overlays.forEach(o => o.classList.remove('active'));

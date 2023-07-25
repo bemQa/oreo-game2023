@@ -82,18 +82,19 @@ class Stopwatch {
 		return res
 	}
 	
-	stop() {
+	stop(fn) {
 		if (this.state=="running") {
 			this.state="paused";
 			if (this.interval) {
+				this.formatTime(this.value);
 				clearInterval(this.interval);
 				this.interval = null;
 			}
 		}
 	}
 
-	addTime(){
-
+	addSeconds(num){
+		this.value += num * 1000;
 	}
 	
 	reset() {

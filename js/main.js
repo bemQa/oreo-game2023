@@ -68,11 +68,34 @@ function maskInit() {
 maskInit();
 checkValidate();
 
+// $('.game-drags-slider').eq(0).slick();
+$('.game-slider').eq(0).slick({
+	buttons: false,
+	dots: true,
+	// centerMode: true,
+	// centerPadding: "45px",
+	slidesToShow: 3,
+});
+
 window.addEventListener('DOMContentLoaded', () => {
 	gsap.to(document.body, {
 		opacity: 1,
 	})
 })
+
+const switchLogo = (state) => {
+	const logo = document.querySelector('.logo');
+	const stopwatch = document.querySelector('.stopwatch');
+
+	if(state == 'logo'){
+		logo.classList.add('active');
+		stopwatch.classList.remove('active');
+	}
+	if(state == 'stopwatch'){
+		stopwatch.classList.add('active');
+		logo.classList.remove('active');
+	}
+}
 
 const overlaysNodes = document.querySelectorAll('[data-overlay]');
 const framesNodes = document.querySelectorAll('[data-frame]');
@@ -86,10 +109,13 @@ const appFrames = new AppFrames({
 	games: gameNodes,
 });
 
+window.frames = appFrames
+
+switchLogo('logo');
 appFrames.hideOverlay();
-appFrames.showFrame('start');
+// appFrames.showFrame('start');
 // appFrames.showFrame('game3Rules');
-// appFrames.showGame('game1')
+appFrames.showGame('game1')
 // appFrames.showOverlay('game3Win')
 // appFrames.showFrame('game1-winframe');
 
@@ -107,18 +133,22 @@ const gameStartButtons = document.querySelectorAll('[data-game-link]');
 	b.addEventListener('click', () => {
 		appFrames.showGame(b.dataset.gameLink);
 		countDown.start(() => {
-			// stopwatch.start();
+			switchLogo('stopwatch');
+			stopwatch.start();
 		})
 	})
 })
 
-// const winFrames = ['game1-winframe', 'game3-winframe']
-const winFrames = ['game1-winframe']
+const winFrames = ['game1-winframe', 'game2Rules', 'game3Rules'];
 winFrames.forEach(f => {
 	document.querySelector(`[data-frame-link="${f}"]`).addEventListener('click', () => {
 		appFrames.hideOverlay();
 		appFrames.hideGames();
 		appFrames.showFrame(f);
+		switchLogo('logo');
+		// setTimeout(() => {
+		// 	stopwatch.reset();
+		// }, 500);
 	})
 })
 // appFrames.showOverlay('game1Lose');
@@ -134,21 +164,31 @@ winFrames.forEach(f => {
 
 
 
-new Game(
+const game1 = new Game(
 	document.getElementById('game1'),
 	{
 		onWin: () => {
 			appFrames.showOverlay('game1Win')
+			stopwatch.stop();
 		}, 
-
+		
 		onLose: (game) => {
 			console.log('game lose')
 			appFrames.showOverlay('game1Lose');
+			stopwatch.addSeconds(5);
+			stopwatch.stop();
+		},
+
+		onGameOver: () => {
+			console.log('game over!');
+			appFrames.showOverlay('game1Lose');
+			stopwatch.addSeconds(60);
+			stopwatch.stop();
 		}
 	}
 );
 
-new Game(
+const game2 = new Game2(
 	document.getElementById('game2'),
 	{
 		onWin: () => {
@@ -158,11 +198,18 @@ new Game(
 		onLose: (game) => {
 			console.log('game lose')
 			appFrames.showOverlay('game2Lose');
+		},
+		 
+		onGameOver: () => {
+			console.log('game over!');
+			appFrames.showOverlay('game2GameOver');
+			stopwatch.addSeconds(60);
+			stopwatch.stop();
 		}
 	}
 );
 
-new Game(
+const game3 = new Game(
 	document.getElementById('game3'),
 	{
 		onWin: () => {
@@ -175,3 +222,16 @@ new Game(
 		}
 	}
 );
+
+const restartButtons = ['restart1', 'restart2', 'restart3'];
+const games = [game1, game2, game3];
+restartButtons.forEach((f, i) => {
+	document.querySelector(`[data-game-action="${f}"]`).addEventListener('click', () => {
+		games[i].restart();
+		appFrames.hideOverlay();
+		switchLogo('logo');
+		// setTimeout(() => {
+		// 	stopwatch.reset();
+		// }, 500);
+	})
+})
