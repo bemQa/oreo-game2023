@@ -57,6 +57,19 @@
 							<button class="game-ovelay__button button" data-game-action="restart2">Сыграть снова</button>
 						</div>
 					</div>
+					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game1-lose" data-overlay="game1GameOver">
+						<div class="game-ovelay__box">
+							<div class="game-ovelay__button-close error">
+								<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44" fill="none">
+									<circle cx="22" cy="22" r="22" fill="#E80505"/>
+									<path d="M14 14L30 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+									<path d="M14 30L30 14" stroke="white" stroke-width="3" stroke-linecap="round"/>
+								</svg>
+							</div>
+							<div class="game-ovelay__title title">Стена красивая, но кажется,<br> что чего-то на ней не хватает…</div>
+							<button class="game-ovelay__button button" data-frame-link="game2Rules">Продолжить</button>
+						</div>
+					</div>
 					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game2-lose" data-overlay="game2GameOver">
 						<div class="game-ovelay__box">
 							<div class="game-ovelay__button-close error">
@@ -142,11 +155,6 @@
 								top: 294px;
 								left: 178px;
 								"></div>
-								<!-- <div class="game-hitbox"></div>
-								<div class="game-hitbox"></div>
-								<div class="game-hitbox"></div>
-								<div class="game-hitbox"></div>
-								<div class="game-hitbox"></div> -->
 							</div>
 						</div>
 						<div class="game-drags">
@@ -154,53 +162,47 @@
 								<div class="game-slider">
 									<div class="game-slider__slide">
 										<div>
-											1
+											<img src="img/games/game1/1.png" alt="1">
 										</div>
 									</div>
 									<div class="game-slider__slide">
 										<div>
-											2
+											<img src="img/games/game1/2.png" alt="2">
 										</div>
 									</div>
 									<div class="game-slider__slide">
 										<div>
-											3
+											<img src="img/games/game1/3.png" alt="3">
 										</div>
 									</div>
 									<div class="game-slider__slide">
 										<div>
-											4
+											<img src="img/games/game1/4.png" alt="4">
+										</div>
+									</div>
+									<div class="game-slider__slide">
+										<div>
+											<img src="img/games/game1/5.png" alt="5">
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="game-drags-slider">
-								<div class="game-drags-slider___slide">
-									<div class="game-drags__item" style="background-color: red;" data-item="g915">
-										<img src="img/games/game1/1.png" alt="game-item">
-									</div>
-
-								</div>
-								<div class="game-drags-slider___slide">
-									<div class="game-drags__item" style="background-color: blue;" data-item="g228">
-										<img src="img/games/game1/1.png" alt="game-item">
-									</div>
-								</div>
-								<div class="game-drags-slider___slide">
-									<div class="game-drags__item" style="background-color: green;" data-item="g95">
-										<img src="img/games/game1/1.png" alt="game-item">
-									</div>
-								</div>
-								<div class="game-drags-slider___slide">
-									<div class="game-drags__item" style="background-color: green;" data-item="g95">
-										<img src="img/games/game1/1.png" alt="game-item">
-									</div>
-								</div>
-							</div>
-							<!-- <div class="game-drags__item" style="background-color: rgb(50, 180, 104);" data-item="0">
+							<div class="game-drags__item" style="background-color: green;" data-item="g95">
 								<img src="img/games/game1/1.png" alt="game-item">
-							</div> -->
-							
+							</div>
+							<div class="game-drags__item" style="background-color: green;" data-item="g95">
+								<img src="img/games/game1/2.png" alt="game-item">
+							</div>
+							<div class="game-drags__item game-drags__item--tall" style="background-color: green;" data-item="g228">
+								<img src="img/games/game1/3.png" alt="game-item">
+							</div>
+							<div class="game-drags__item game-drags__item--tall" style="background-color: green;" data-item="g228">
+								<img src="img/games/game1/4.png" alt="game-item">
+							</div>
+							<div class="game-drags__item" style="background-color: green;" data-item="g95">
+								<img src="img/games/game1/5.png" alt="game-item">
+							</div>
+						
 						</div>
 					</div>
 				</div>
