@@ -17,6 +17,18 @@
 	padding-top: 126px;
 }
 
+.logo-ratings {
+    user-select: none;
+    position: absolute;
+    top: 24px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    z-index: 2;
+}
+
 .ratings-title {
 	position: relative;
 	margin-bottom: 30px;
