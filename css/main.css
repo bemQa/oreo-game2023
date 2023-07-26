@@ -566,6 +566,7 @@ form span.error {
 .stopwatch__info {
 	opacity: 0;
 	font-size: 10px;
+	text-transform: uppercase;
 }
 
 .stopwatch.error .stopwatch__inner{
