@@ -42,6 +42,9 @@ html{
 	opacity: 0;
 	transition: all .3s ease-in;
 }
+.logo img {
+	max-width: 112px;
+}
 
 .logo.active{
 	opacity: 1;
@@ -50,6 +53,14 @@ html{
 .games{
 	overflow: hidden;
 	/* opacity: 0; */
+}
+
+.app-bg{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	background: url('../img/frames/base-bg.jpg');
 }
 .game {
 	pointer-events: none;
@@ -139,6 +150,7 @@ p{
 	padding-bottom: 4px;
 	justify-content: center;
 	align-items: center;
+	text-decoration: none;
 
 	font-family: 'bold';
 }
@@ -773,7 +785,7 @@ form span.error {
 }
 #game1 .game-hitbox {
 	border: 2px solid;
-	transform: scale(1.3, 1.5);
+	transform: scale(1.5, 1.7);
 }
 
 #game1 .game-drags__item{
@@ -868,6 +880,7 @@ form span.error {
 
 #game2 .game-hitbox {
 	border:  2px solid;
+	transform: scale(1.3);
 }
 #game2 .game-drags {
 	z-index: 0;
@@ -964,9 +977,60 @@ form span.error {
     max-width: 184px;
     margin: auto;
 }
-.game-overaly-frame--game3-lose, 
+.game-overaly-frame--game3-lose,
 .game-overaly-frame--game3-win,
+.overlay--game3GameOver .game-ovelay,
 .overlay--game3Lose,
 .overlay--game3Lose .game-ovelay{
 	height: 625px;
 }
+
+
+/* /sanya css */
+/* .wrap {
+    max-width: 600px;
+    width: 100%;
+    background-image: url(../img/frames/base-bg.jpg);
+    background-position: center 0;
+    background-repeat: no-repeat;
+    background-color: #055EB0;
+    min-height: 568px;
+    height: 100vh;
+    position: relative;
+    margin: auto;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-width: 320px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.games {
+    max-width: 320px;
+    width: 100%;
+    min-height: 568px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.frames {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    margin: auto;
+    max-width: 320px;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+} */
+/* sanya css/ */

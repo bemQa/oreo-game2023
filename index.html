@@ -83,6 +83,19 @@
 							<button class="game-ovelay__button button" data-frame-link="game3Rules">Продолжить</button>
 						</div>
 					</div>
+					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game3-lose" data-overlay="game3GameOver">
+						<div class="game-ovelay__box">
+							<div class="game-ovelay__button-close error">
+								<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44" fill="none">
+									<circle cx="22" cy="22" r="22" fill="#E80505"/>
+									<path d="M14 14L30 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+									<path d="M14 30L30 14" stroke="white" stroke-width="3" stroke-linecap="round"/>
+								</svg>
+							</div>
+							<div class="game-ovelay__title title">Стена красивая, но кажется,<br> что чего-то на ней не хватает…</div>
+							<button class="game-ovelay__button button" data-frame-link="game3-winframe">Продолжить</button>
+						</div>
+					</div>
 					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game3-lose" data-overlay="game3Lose">
 						<div class="game-ovelay__box">
 							<div class="game-ovelay__button-close error">
@@ -440,6 +453,8 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="app-bg"></div>
 			</div>
 			<div class="frames">
 				<div class="frame frame-hello" data-frame="start">
@@ -454,7 +469,7 @@
 					</p>
 					<p>
 						Мы вместе внесем вклад в рост доли рынка OREO в 2023 году! Выполним все
-						sales KPIsи создадим идеальный магазин OREO, заработав баллы для своей
+						<span style="color: rgba(237, 40, 145, 1);">sales KPIs</span> и создадим идеальный магазин OREO, заработав баллы для своей
 						команды!
 					</p>
 					<p>Удачи!</p>
@@ -553,6 +568,8 @@
 					<br>
 					<button class="button" data-frame-link="ratings">Начать</button>
 				</div>
+				<!-- button > data-frame-link="", .frame > data-frame=""-->
+				<!-- link button -->
 				<div class="frame frame-game-start frame-game-start--rating" data-frame="ratings">
 					<div class="frame__game-start__bg">
 						<img src="img/frames/game-start/bg/ratings.png" alt="bg">
@@ -564,7 +581,7 @@
 					<p>Посмотри ваш рейтинг<br> в ТОПе команд.</p>
 					<br>
 					<br>
-					<button class="button">Посмотреть</button>
+					<a class="button" href="/Rating" >Посмотрите</a>
 				</div>
 				<div class="frame frame--table" >
 					<div class="rates">

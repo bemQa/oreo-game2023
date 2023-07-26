@@ -11,6 +11,7 @@ class Game {
 		onGameOver: null,
 	};
 	activeItems = [];
+	itemDefaultStyles = [];
 	constructor(root, settings){
 		this.root = root;
 		this.nodeDragArea = root.querySelector('.game-main__drag-area')
@@ -20,6 +21,8 @@ class Game {
 			return !si.classList.contains('slick-cloned');
 		});
 		this.sliderItems = filteredSliderItems
+		this.itemsWrap = root.querySelector('.game-drags');
+		this.items.forEach(item => this.itemDefaultStyles.push(item.getAttribute('style')));
 
 		this.settings = settings;
 		this.init();
@@ -33,7 +36,7 @@ class Game {
 		const gameFrameBox = this.root.querySelector('.game-main').getBoundingClientRect();
 		const hitTest = this.hitTest.bind(this);
 		const items = [...this.items];
-		const activeItems = this.activeItems;
+		const self = this;
 
 		[...this.sliderItems].forEach((sliderItem, i) => {
 			sliderItem.onmousedown = function(e) {
@@ -60,10 +63,11 @@ class Game {
 	
 				itemToDrag.onmouseup = function(e) {
 					
-					activeItems.push(itemToDrag);
+					self.activeItems.push(itemToDrag);
+					console.log(self.activeItems)
 					initItemDragsBg()
 					
-					hitTest(itemToDrag);
+					hitTest();
 					document.onmousemove = null;
 					sliderItem.onmouseup = null;
 				};
@@ -81,16 +85,11 @@ class Game {
 
 		});
 
-
 		function initItemDragsBg() {
-			[...activeItems].forEach((itemToDrag, i) => {
+			[...self.activeItems].forEach((itemToDrag, i) => {
 				itemToDrag.onmousedown = function(e) {
-	
 					let itemCoords = getCoords(itemToDrag);
-					console.log(e.clientX, itemCoords, gameFrameBox)
 		
-					itemToDrag.style.position = 'absolute';
-					bg.appendChild(itemToDrag);
 					moveAt(e);
 	
 					function moveAt(e) {
@@ -103,8 +102,8 @@ class Game {
 					};
 		
 					itemToDrag.onmouseup = function(e) {
-						console.log('onmouseup')
-						hitTest(itemToDrag);
+						console.log('onmouseup initItemDragsBg')
+						hitTest();
 						document.onmousemove = null;
 						itemToDrag.onmouseup = null;
 					};
@@ -122,32 +121,131 @@ class Game {
 	
 			})
 		}
+
+		// [...this.sliderItems].forEach((sliderItem, i) => {
+		// 	sliderItem.ontouchstart = function(e) {
+		// 		console.log(e)
+		// 		const itemToDrag = items[i];
+				
+		// 		itemToDrag.classList.add('active');
+		// 		sliderItem.classList.add('active');
+
+		// 		let itemCoords = getCoords(itemToDrag);
+		// 		console.log(e.changedTouches[0], itemCoords, gameFrameBox)
+	
+		// 		itemToDrag.style.position = 'absolute';
+		// 		bg.appendChild(itemToDrag);
+		// 		moveAt(e);
+
+		// 		function moveAt(e) {
+		// 			itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+		// 			itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+		// 		}
+	
+		// 		document.ontouchmove = function(e) {
+		// 			moveAt(e);
+		// 		};
+	
+		// 		itemToDrag.ontouchend = function(e) {
+					
+		// 			activeItems.push(itemToDrag);
+		// 			initItemDragsBgMobile();
+					
+		// 			hitTest(itemToDrag);
+		// 			document.ontouchmove = null;
+		// 			sliderItem.ontouchend = null;
+		// 		};
+	
+		// 	}
+	
+		// 	sliderItem.ontouchstart = function() {
+		// 		return false;
+		// 	};
+	
+		// 	function getCoords(elem) {
+		// 		let box = elem.getBoundingClientRect();
+		// 		return box;
+		// 	}
+
+		// });
+
+
+		
+
+		// function initItemDragsBgMobile() {
+		// 	[...activeItems].forEach((itemToDrag, i) => {
+		// 		itemToDrag.onmousedown = function(e) {
+	
+		// 			let itemCoords = getCoords(itemToDrag);
+		// 			console.log(e.clientX, itemCoords, gameFrameBox)
+		
+		// 			itemToDrag.style.position = 'absolute';
+		// 			bg.appendChild(itemToDrag);
+		// 			moveAt(e);
+	
+		// 			function moveAt(e) {
+		// 				itemToDrag.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+		// 				itemToDrag.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+		// 			}
+		
+		// 			document.onmousemove = function(e) {
+		// 				moveAt(e);
+		// 			};
+		
+		// 			itemToDrag.onmouseup = function(e) {
+		// 				console.log('onmouseup')
+		// 				hitTest(itemToDrag);
+		// 				document.onmousemove = null;
+		// 				itemToDrag.onmouseup = null;
+		// 			};
+		
+		// 		}
+		
+		// 		itemToDrag.ondragstart = function() {
+		// 			return false;
+		// 		};
+		
+		// 		function getCoords(elem) {
+		// 			let box = elem.getBoundingClientRect();
+		// 			return box;
+		// 		}
+	
+		// 	})
+		// }
 	}
 
-	hitTest(item){
+	hitTest(){
 		const hitboxes = [...this.hitboxes];
-		hitboxes.forEach(h => {
-			const hRect = h.getBoundingClientRect();
-			const iRect = item.getBoundingClientRect()
-			if(this.findContainment(iRect, hRect) == 'contained'){
-				console.log('in box', h)
-				this.itemsOnTest.push(item.dataset.item)
-				this.checkWin();
-			}
+		const activeItems = [...this.activeItems];
+		console.log(activeItems)
+		const itemsOnTest = [];
+
+		hitboxes.forEach(h => { 
+			activeItems.forEach(aItem => {
+				const hRect = h.getBoundingClientRect();
+				const iRect = aItem.getBoundingClientRect()
+
+				if(this.findContainment(iRect, hRect) != 'contained'){
+					return
+				}
+				itemsOnTest.push(aItem)
+				this.checkWin(itemsOnTest);
+			})
 		})
 
 	}
 
-	checkWin(){
-		this.itemsOnTest.sort();
+	checkWin(itemsOnTest){
+		console.log(itemsOnTest);
+		const testVal = itemsOnTest.map(item => item.dataset.item).sort();
 		const winCondition = ['g228', 'g95', 'g95', 'g95'];
 		
-		console.log(this.itemsOnTest)
-		if(this.itemsOnTest.length != winCondition.length){
+		console.log(testVal)
+		if(testVal.length != winCondition.length){
 			return
 		}
 		
-		if(this.arrayEquals(this.itemsOnTest, winCondition)){
+		if(this.arrayEquals(testVal, winCondition)){
 			this.settings.onWin(this);
 		} else {
 			this.checkGameOver();
@@ -155,10 +253,14 @@ class Game {
 	}
 
 	restart(){
-		this.itemsOnTest = [];
-		[...this.items].forEach(item => item.classList.remove('active'));
+		this.activeItems = [];
 		[...this.sliderItems].forEach(item => item.classList.remove('active'));
-		
+
+		[...this.items].forEach((item, i) => {
+			this.itemsWrap.appendChild(item)
+			item.classList.remove('active');
+			item.setAttribute('style', this.itemDefaultStyles[i])
+		})
 	}
 
 	checkGameOver(){
@@ -313,15 +415,16 @@ class Game2 {
 		hitboxes.forEach((h, i) => {
 			const hRect = h.getBoundingClientRect();
 			const iRect = item.getBoundingClientRect()
-
+			
 			if(this.findContainment(iRect, hRect) == 'contained'){
 				intersects.push(h)
 				// this.itemsOnTest.push(item.dataset.item)
 			}
 		})
-
+		
 		if(intersects.length){
 			this.itemsOnTest.push(intersects[intersects.length - 1]);
+			console.log(this.itemsOnTest)
 			this.checkWin();
 		}
 
@@ -347,6 +450,8 @@ class Game2 {
 		const sordtedHb = [...this.hitboxes].sort((a, b) => {
 			return parseInt(a.dataset.order) - parseInt(b.dataset.order)
 		});
+
+		console.log(itemsOnTest, testValues)
 		
 		if(!this.arrayEquals(testValues, winCondition)){
 			console.log('winCond false')
@@ -489,7 +594,6 @@ class Game3 {
 		const bg = this.root.querySelector('.game-main__bg');
 		const gameFrameBox = this.root.querySelector('.game-main').getBoundingClientRect();
 		const items = [...this.items];
-		// const clonnedItems = [..]
 		console.log(this.sliderItems);
 		const activeItems = this.activeItems;
 		this.checkClones = this.checkClones.bind(this);
@@ -526,6 +630,62 @@ class Game3 {
 					initItemDragsBg()
 					document.onmousemove = null;
 					sliderItem.onmouseup = null;
+				};
+
+			})
+
+			// sliderItem.onmousedown = function(e) {
+			// }
+	
+			sliderItem.ondragstart = function() {
+				return false;
+			};
+	
+			function getCoords(elem) {
+				let box = elem.getBoundingClientRect();
+				return box;
+			}
+
+		});
+
+
+		[...this.sliderItems].forEach((sliderItem, i) => {
+			sliderItem.addEventListener('touchstart', (e) => {
+				console.log(e)
+				const item = items[i];
+				if(!this.checkClones(item)){
+					sliderItem.classList.add('active');
+					return
+				}
+				const itemToDrag = item.cloneNode(true);
+				
+				itemToDrag.classList.add('active');
+	
+				let itemCoords = getCoords(itemToDrag);
+				// console.log(e.clientX, itemCoords, gameFrameBox)
+	
+				itemToDrag.style.position = 'absolute';
+				bg.appendChild(itemToDrag);
+				moveAt(e);
+	
+				function moveAt(e) {
+					itemToDrag.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+					itemToDrag.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+				}
+	
+				const tm = () => {
+					moveAt(e);
+				}
+				document.addEventListener('touchmove', tm);
+
+				document.addEventListener('touchend', () => {
+					activeItems.push(itemToDrag);
+					initItemDragsBg()
+
+					document.removeEventListener('touchmove', tm)
+				});
+	
+				itemToDrag.onmouseup = function(e) {		
 				};
 
 			})

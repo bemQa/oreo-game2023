@@ -8,18 +8,18 @@ function checkValidate() {
 			validClass: 'success',
 			rules: {
 				name: {
-					required: true 
+					required: true
 				},
 				email: {
 					required: true,
-					email: true 
+					email: true
 				},
 				phone: {
 					required: true,
-					phone: true 
+					phone: true
 				},
 				message: {
-					required: true 
+					required: true
 				},
 				password: {
 					required: true,
@@ -28,8 +28,8 @@ function checkValidate() {
 					}
 				}
 			},
-			errorElement : 'span',
-			errorPlacement: function(error, element) {
+			errorElement: 'span',
+			errorPlacement: function (error, element) {
 				var placement = $(element).data('error');
 				if (placement) {
 					$(placement).append(error);
@@ -42,7 +42,7 @@ function checkValidate() {
 				email: 'Некорректный e-mail',
 				name: 'Заполните правильно поле',
 				surname: 'Заполните правильно поле'
-			} 
+			}
 		});
 	});
 	jQuery.validator.addMethod('email', function (value, element) {
@@ -55,26 +55,46 @@ function checkValidate() {
 
 function maskInit() {
 	$(".phone-mask").inputmask({
-		mask:"+7(999)999-99-99",
+		mask: "+7(999)999-99-99",
 		"clearIncomplete": true
 	});
 
 	$(".card-mask").inputmask({
-		mask:"9999-9999-9999-9999",
+		mask: "9999-9999-9999-9999",
 		"clearIncomplete": true
 	});
 }
 
+function gameSlider() {
+	$('.game-slider').slick({
+		arrows: false,
+		buttons: false,
+		dots: true,
+		centerMode: true,
+		// centerPadding: "65px",
+		slidesToShow: 1
+	})
+		.on("setPosition", function () {
+			resizeSlider();
+		});
+
+	$(window).on("resize", function (e) {
+		resizeSlider();
+	});
+
+	function resizeSlider() {
+		$('.game-slider').each(function () {
+			let slickHeight = $(this).find(".slick-track").outerHeight();
+			$(this).find(".slick-track")
+				.find(".slick-slide div")
+				.css("height", slickHeight + "px");
+		});
+	}
+}
+
+gameSlider()
 maskInit();
 checkValidate();
-
-$('.game-slider').slick({
-	buttons: false,
-	dots: true,
-	centerMode: true,
-	// centerPadding: "65px",
-	slidesToShow: 1,
-});
 
 window.addEventListener('DOMContentLoaded', () => {
 	gsap.to(document.body, {
@@ -86,11 +106,11 @@ const switchLogo = (state) => {
 	const logo = document.querySelector('.logo');
 	const stopwatch = document.querySelector('.stopwatch');
 
-	if(state == 'logo'){
+	if (state == 'logo') {
 		logo.classList.add('active');
 		stopwatch.classList.remove('active');
 	}
-	if(state == 'stopwatch'){
+	if (state == 'stopwatch') {
 		stopwatch.classList.add('active');
 		logo.classList.remove('active');
 	}
@@ -113,8 +133,11 @@ window.frames = appFrames
 switchLogo('logo');
 appFrames.hideOverlay();
 appFrames.showFrame('start');
+
+// appFrames.showFrame('game1');
+// appFrames.showFrame('ratings');
 // appFrames.showFrame('game3Rules');
-// appFrames.showGame('game3')
+// appFrames.showGame('game2')
 // appFrames.showOverlay('game3Win')
 // appFrames.showFrame('game1-winframe');
 
@@ -128,6 +151,7 @@ const gameStartButtons = document.querySelectorAll('[data-game-link]');
 		appFrames.showFrame(b.dataset.frameLink);
 	})
 });
+
 [...gameStartButtons].forEach(b => {
 	b.addEventListener('click', () => {
 		appFrames.showGame(b.dataset.gameLink);
@@ -141,13 +165,10 @@ const gameStartButtons = document.querySelectorAll('[data-game-link]');
 const winFrames = ['game1-winframe', 'game2Rules', 'game3Rules'];
 winFrames.forEach(f => {
 	document.querySelector(`[data-frame-link="${f}"]`).addEventListener('click', () => {
+		switchLogo('logo');
 		appFrames.hideOverlay();
 		appFrames.hideGames();
 		appFrames.showFrame(f);
-		switchLogo('logo');
-		// setTimeout(() => {
-		// 	stopwatch.reset();
-		// }, 500);
 	})
 })
 // appFrames.showOverlay('game1Lose');
@@ -169,8 +190,10 @@ const game1 = new Game(
 		onWin: () => {
 			appFrames.showOverlay('game1Win')
 			stopwatch.stop();
-		}, 
-		
+			stopwatch.reset();
+			switchLogo('logo');
+		},
+
 		onLose: (game) => {
 			console.log('game lose')
 			appFrames.showOverlay('game1Lose');
@@ -182,7 +205,8 @@ const game1 = new Game(
 			console.log('game over!');
 			appFrames.showOverlay('game1GameOver');
 			stopwatch.addSeconds(60);
-			stopwatch.stop();
+			stopwatch.reset();
+			switchLogo('logo');
 		}
 	}
 );
@@ -192,18 +216,24 @@ const game2 = new Game2(
 	{
 		onWin: () => {
 			appFrames.showOverlay('game2Win')
-		}, 
+			stopwatch.stop();
+			stopwatch.reset();
+			switchLogo('logo');
+		},
 
 		onLose: (game) => {
 			console.log('game lose')
 			appFrames.showOverlay('game2Lose');
+			stopwatch.addSeconds(5);
+			stopwatch.stop();
 		},
-		 
+
 		onGameOver: () => {
 			console.log('game over!');
 			appFrames.showOverlay('game2GameOver');
 			stopwatch.addSeconds(60);
-			stopwatch.stop();
+			stopwatch.reset();
+			switchLogo('logo');
 		}
 	}
 );
@@ -213,18 +243,23 @@ const game3 = new Game3(
 	{
 		onWin: () => {
 			appFrames.showOverlay('game3Win')
-		}, 
+			stopwatch.stop();
+			stopwatch.reset();
+			switchLogo('logo');
+		},
 
 		onLose: (game) => {
 			console.log('game lose')
 			appFrames.showOverlay('game3Lose');
+			stopwatch.stop();
 		},
 
 		onGameOver: () => {
 			console.log('game over!');
-			appFrames.showOverlay('game1GameOver');
+			appFrames.showOverlay('game3GameOver');
 			stopwatch.addSeconds(60);
 			stopwatch.stop();
+			switchLogo('logo');
 		}
 	}
 );
@@ -235,9 +270,13 @@ restartButtons.forEach((f, i) => {
 	document.querySelector(`[data-game-action="${f}"]`).addEventListener('click', () => {
 		games[i].restart();
 		appFrames.hideOverlay();
-		switchLogo('logo');
-		// setTimeout(() => {
-		// 	stopwatch.reset();
-		// }, 500);
+		countDown.start(() => {
+			switchLogo('stopwatch');
+			stopwatch.start();
+		})
 	})
+})
+
+document.querySelector('[data-frame-link="game3-winframe"]').addEventListener('click', () => {
+	appFrames.hideGames();
 })

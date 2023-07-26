@@ -12,6 +12,7 @@ class AppFrames {
 	tl = gsap.timeline();
 	overlayRoot = document.querySelector('.overlay');
 	framesRoot = document.querySelector('.frames');
+	appbg = document.querySelector('.app-bg');
 	overlayTempClass = 'initial-ovelay';
 
 	constructor(settings){
@@ -32,19 +33,25 @@ class AppFrames {
 		const game = document.getElementById(id);
 		this.hideFrames();
 		this.hideGames();
+		// console.log(Object.values(this.store.games))
+		console.log(this)
 		// this.hideOverlay();
-
+		this.tl.to(this.appbg, {
+			duration: 0,
+			opacity: 0,
+		}, '<');
 		game.classList.add('active');
 		this.tl.to(game, {
-			// duration: ,
 			opacity: 1,
 		});
 	}
-
+	
 	hideGames() {
+		[...this.settings.games].forEach(g => g.classList.remove('active'));
 		this.tl.set(Object.values(this.settings.games), {
 			opacity: 0,
 		});
+
 	}
 
 
@@ -92,7 +99,7 @@ class AppFrames {
 	}
 
 	showOverlay(datasetId){
-		this.hideOverlay();
+		// this.hideOverlay();
 		this.overlayTempClass = 'overlay--' + datasetId
 		this.overlayRoot.classList.add('active')
 		this.overlayRoot.classList.add(this.overlayTempClass);
@@ -112,9 +119,7 @@ class AppFrames {
 		this.overlayRoot.classList.remove(this.overlayTempClass)
 		this.overlayRoot.classList.remove('active')
 		const overlays = Object.values(this.store.overlays);
-		this.tl.to(overlays, {
-			opacity: 0,
-		});
+		[...overlays].forEach(o => o.setAttribute("style", "opacity: 0"));
 		overlays.forEach(o => o.classList.remove('active'));
 	}
 }
