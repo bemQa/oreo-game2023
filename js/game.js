@@ -37,13 +37,20 @@ class Game {
 		const hitTest = this.hitTest.bind(this);
 		const items = [...this.items];
 		const self = this;
+		console.log(self.checkClones)
+		this.checkClones = this.checkClones.bind(this);
 
 		[...this.sliderItems].forEach((sliderItem, i) => {
-			sliderItem.onmousedown = function(e) {
-				const itemToDrag = items[i];
-				
+			const sliderImage = sliderItem.querySelector('img');
+			sliderImage.onmousedown = function(e) {
+				const item = items[i];
+				if(!self.checkClones(item)){
+					sliderImage.classList.add('active');
+					return
+				}
+				const itemToDrag = item.cloneNode(true);
+
 				itemToDrag.classList.add('active');
-				sliderItem.classList.add('active');
 
 				let itemCoords = getCoords(itemToDrag);
 				console.log(e.clientX, itemCoords, gameFrameBox)
@@ -69,12 +76,12 @@ class Game {
 					
 					hitTest();
 					document.onmousemove = null;
-					sliderItem.onmouseup = null;
+					sliderImage.onmouseup = null;
 				};
 	
 			}
 	
-			sliderItem.ondragstart = function() {
+			sliderImage.ondragstart = function() {
 				return false;
 			};
 	
@@ -125,10 +132,15 @@ class Game {
 		[...this.sliderItems].forEach((sliderItem, i) => {
 			sliderItem.addEventListener('touchstart',(e) => {
 				console.log('touchstart')
-				const itemToDrag = items[i];
-				
+				const item = items[i];
+				console.log(self.checkClones(item, self.activeItems))
+				if(!self.checkClones(item)){
+					sliderItem.classList.add('active');
+					return
+				}
+				const itemToDrag = item.cloneNode(true);
+
 				itemToDrag.classList.add('active');
-				sliderItem.classList.add('active');
 	
 				let itemCoords = getCoords(itemToDrag);
 				console.log(e.changedTouches[0], itemCoords, gameFrameBox)
@@ -209,6 +221,19 @@ class Game {
 		}
 	}
 
+	checkClones(item, activeItems){
+		// const maxNum = parseInt(item.dataset.numClones)
+		const maxNum = 8;
+		console.log([...this.activeItems])
+		const bgItemsNums = [...this.activeItems].length;
+		console.log(bgItemsNums)
+		if(bgItemsNums >= maxNum){
+			return false
+		} else {
+			return true
+		}
+	}
+
 	hitTest(){
 		const hitboxes = [...this.hitboxes];
 		const activeItems = [...this.activeItems];
@@ -248,9 +273,8 @@ class Game {
 	}
 
 	restart(){
+		[...this.activeItems].forEach(item => item.classList.remove('active'));
 		this.activeItems = [];
-		[...this.sliderItems].forEach(item => item.classList.remove('active'));
-
 		[...this.items].forEach((item, i) => {
 			this.itemsWrap.appendChild(item)
 			item.classList.remove('active');

@@ -1,6 +1,8 @@
 class Countdown {
 	root = document.querySelector('.countdown');
 	frames = this.root.querySelectorAll('.countdown__item');
+	
+	
 	constructor(){
 	}
 
@@ -8,7 +10,8 @@ class Countdown {
 		const one = this.frames[0];
 		const two = this.frames[1];
 		const three = this.frames[2];
-
+		const bodyEl = document.body;
+		bodyEl.classList.add('countdown-progress')
 		const tl = gsap.timeline();
 		tl.to(this.root, {
 			opacity: 1,
@@ -28,6 +31,7 @@ class Countdown {
 		tl.to(three, {
 			opacity: 0,
 			onComplete: () => {
+				bodyEl.classList.remove('countdown-progress')
 				if(callback){
 					callback();
 				}

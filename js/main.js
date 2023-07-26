@@ -71,7 +71,7 @@ function gameSlider() {
 		buttons: false,
 		dots: true,
 		centerMode: true,
-		// centerPadding: "65px",
+		centerPadding: "75px",
 		slidesToShow: 1
 	})
 		.on("setPosition", function () {
@@ -92,7 +92,10 @@ function gameSlider() {
 	}
 }
 
-gameSlider()
+window.onload = function () {
+	gameSlider()
+}
+
 maskInit();
 checkValidate();
 
@@ -137,7 +140,7 @@ appFrames.showFrame('start');
 // appFrames.showFrame('game1');
 // appFrames.showFrame('ratings');
 // appFrames.showFrame('game3Rules');
-// appFrames.showGame('game2')
+// appFrames.showGame('game1')
 // appFrames.showOverlay('game3Win')
 // appFrames.showFrame('game1-winframe');
 
@@ -270,10 +273,8 @@ restartButtons.forEach((f, i) => {
 	document.querySelector(`[data-game-action="${f}"]`).addEventListener('click', () => {
 		games[i].restart();
 		appFrames.hideOverlay();
-		countDown.start(() => {
-			switchLogo('stopwatch');
-			stopwatch.start();
-		})
+		switchLogo('stopwatch');
+		stopwatch.start();
 	})
 })
 
