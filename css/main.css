@@ -788,6 +788,19 @@ form span.error {
 	transform: scale(1.5, 1.7);
 }
 
+#game1 .game-drags__title {
+	position: absolute;
+	font-size: 12px;
+	left: 0;right: 0;
+	margin: auto;
+	top: 0;
+	top: -53px;
+}
+#game1 .game-drags {
+	position: absolute;
+	bottom: 0;
+}
+
 #game1 .game-drags__item{
 	opacity: 0;
 }
@@ -985,7 +998,10 @@ form span.error {
 	height: 625px;
 }
 
-
+body{
+	overscroll-behavior: none;
+	-webkit-overscroll-behavior: none;
+}
 /* /sanya css */
 /* .wrap {
     max-width: 600px;

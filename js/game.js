@@ -122,96 +122,91 @@ class Game {
 			})
 		}
 
-		// [...this.sliderItems].forEach((sliderItem, i) => {
-		// 	sliderItem.ontouchstart = function(e) {
-		// 		console.log(e)
-		// 		const itemToDrag = items[i];
+		[...this.sliderItems].forEach((sliderItem, i) => {
+			sliderItem.addEventListener('touchstart',(e) => {
+				console.log('touchstart')
+				const itemToDrag = items[i];
 				
-		// 		itemToDrag.classList.add('active');
-		// 		sliderItem.classList.add('active');
-
-		// 		let itemCoords = getCoords(itemToDrag);
-		// 		console.log(e.changedTouches[0], itemCoords, gameFrameBox)
+				itemToDrag.classList.add('active');
+				sliderItem.classList.add('active');
 	
-		// 		itemToDrag.style.position = 'absolute';
-		// 		bg.appendChild(itemToDrag);
-		// 		moveAt(e);
-
-		// 		function moveAt(e) {
-		// 			itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
-		// 			itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
-		// 		}
+				let itemCoords = getCoords(itemToDrag);
+				console.log(e.changedTouches[0], itemCoords, gameFrameBox)
 	
-		// 		document.ontouchmove = function(e) {
-		// 			moveAt(e);
-		// 		};
+				itemToDrag.style.position = 'absolute';
+				bg.appendChild(itemToDrag);
+				moveAt(e);
 	
-		// 		itemToDrag.ontouchend = function(e) {
+				function moveAt(e) {
+					itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+					itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+				}
+	
+				document.ontouchmove = function(e) {
+					moveAt(e);
+				};
+	
+				itemToDrag.ontouchend = function(e) {
+					console.log('ontouchend')
+					self.activeItems.push(itemToDrag);
+					initItemDragsBgMobile();
 					
-		// 			activeItems.push(itemToDrag);
-		// 			initItemDragsBgMobile();
-					
-		// 			hitTest(itemToDrag);
-		// 			document.ontouchmove = null;
-		// 			sliderItem.ontouchend = null;
-		// 		};
-	
-		// 	}
-	
-		// 	sliderItem.ontouchstart = function() {
-		// 		return false;
-		// 	};
-	
-		// 	function getCoords(elem) {
-		// 		let box = elem.getBoundingClientRect();
-		// 		return box;
-		// 	}
+					hitTest(itemToDrag);
+					document.ontouchmove = null;
+					sliderItem.ontouchend = null;
+				};
 
-		// });
-
-
-		
-
-		// function initItemDragsBgMobile() {
-		// 	[...activeItems].forEach((itemToDrag, i) => {
-		// 		itemToDrag.onmousedown = function(e) {
+			})
 	
-		// 			let itemCoords = getCoords(itemToDrag);
-		// 			console.log(e.clientX, itemCoords, gameFrameBox)
-		
-		// 			itemToDrag.style.position = 'absolute';
-		// 			bg.appendChild(itemToDrag);
-		// 			moveAt(e);
+			sliderItem.ontouchstart = function() {
+				return false;
+			};
 	
-		// 			function moveAt(e) {
-		// 				itemToDrag.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
-		// 				itemToDrag.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
-		// 			}
+			function getCoords(elem) {
+				let box = elem.getBoundingClientRect();
+				return box;
+			}
+
+		});
+
+		function initItemDragsBgMobile() {
+			[...self.activeItems].forEach((itemToDrag, i) => {
+				itemToDrag.addEventListener('touchstart', (e) => {
+					let itemCoords = getCoords(itemToDrag);
 		
-		// 			document.onmousemove = function(e) {
-		// 				moveAt(e);
-		// 			};
-		
-		// 			itemToDrag.onmouseup = function(e) {
-		// 				console.log('onmouseup')
-		// 				hitTest(itemToDrag);
-		// 				document.onmousemove = null;
-		// 				itemToDrag.onmouseup = null;
-		// 			};
-		
-		// 		}
-		
-		// 		itemToDrag.ondragstart = function() {
-		// 			return false;
-		// 		};
-		
-		// 		function getCoords(elem) {
-		// 			let box = elem.getBoundingClientRect();
-		// 			return box;
-		// 		}
+					itemToDrag.style.position = 'absolute';
+					bg.appendChild(itemToDrag);
+					moveAt(e);
 	
-		// 	})
-		// }
+					function moveAt(e) {
+						itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+						itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+					}
+		
+					document.ontouchmove = function(e) {
+						moveAt(e);
+					};
+		
+					itemToDrag.ontouchend = function(e) {
+						console.log('ontouchend')
+						hitTest(itemToDrag);
+						document.ontouchmove = null;
+						itemToDrag.ontouchend = null;
+					};
+
+				})
+		
+				itemToDrag.ondragstart = function() {
+					return false;
+				};
+		
+				function getCoords(elem) {
+					let box = elem.getBoundingClientRect();
+					return box;
+				}
+	
+			})
+		}
 	}
 
 	hitTest(){

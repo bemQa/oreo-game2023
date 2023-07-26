@@ -57,6 +57,19 @@
 							<button class="game-ovelay__button button" data-game-action="restart2">Сыграть снова</button>
 						</div>
 					</div>
+					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game3-lose" data-overlay="game3Lose">
+						<div class="game-ovelay__box">
+							<div class="game-ovelay__button-close error">
+								<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44" fill="none">
+									<circle cx="22" cy="22" r="22" fill="#E80505"/>
+									<path d="M14 14L30 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+									<path d="M14 30L30 14" stroke="white" stroke-width="3" stroke-linecap="round"/>
+								</svg>
+							</div>
+							<div class="game-ovelay__title title">Хорошая попытка, но…<br> Кажется, план неправильный.<br> Попробуйте по-другому!</div>
+							<button class="game-ovelay__button button" data-game-action="restart3">Сыграть снова</button>
+						</div>
+					</div>
 					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game1-lose" data-overlay="game1GameOver">
 						<div class="game-ovelay__box">
 							<div class="game-ovelay__button-close error">
@@ -94,19 +107,6 @@
 							</div>
 							<div class="game-ovelay__title title">Стена красивая, но кажется,<br> что чего-то на ней не хватает…</div>
 							<button class="game-ovelay__button button" data-frame-link="game3-winframe">Продолжить</button>
-						</div>
-					</div>
-					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game3-lose" data-overlay="game3Lose">
-						<div class="game-ovelay__box">
-							<div class="game-ovelay__button-close error">
-								<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44" fill="none">
-									<circle cx="22" cy="22" r="22" fill="#E80505"/>
-									<path d="M14 14L30 30" stroke="white" stroke-width="3" stroke-linecap="round"/>
-									<path d="M14 30L30 14" stroke="white" stroke-width="3" stroke-linecap="round"/>
-								</svg>
-							</div>
-							<div class="game-ovelay__title title">Хорошая попытка, но…<br> Кажется, план неправильный.<br> Попробуйте по-другому!</div>
-							<button class="game-ovelay__button button" data-game-action="restart3">Сыграть снова</button>
 						</div>
 					</div>
 					<div class="game-ovelay__frame game-overaly-frame game-overaly-frame--game1-win" data-overlay="game1Win">
@@ -171,6 +171,7 @@
 							</div>
 						</div>
 						<div class="game-drags">
+							<div class="game-drags__title title">Перетяните пачки на их места</div>
 							<div class="game-slider-wrap">
 								<div class="game-slider">
 									<div class="game-slider__slide">
@@ -566,7 +567,7 @@
 					<br>
 					<br>
 					<br>
-					<button class="button" data-frame-link="ratings">Начать</button>
+					<button class="button" data-frame-link="ratings">Дальше</button>
 				</div>
 				<!-- button > data-frame-link="", .frame > data-frame=""-->
 				<!-- link button -->
