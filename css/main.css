@@ -83,10 +83,11 @@ html{
 }
 .frame-hello {
 	min-height: 568px;
-	background-image: url('../img/frames/bg2.jpg');
-	background-repeat: no-repeat;
-
-	background-color: #055EB0;
+    background-image: url(../img/frames/bg2.jpg);
+    background-size: 600px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #055EB0;
 }
 
 .frame-hello {
@@ -176,7 +177,9 @@ p{
 
 .frame-reg{
 	background-image: url('../img/frames/reg/bg.jpg');
-	background-repeat: no-repeat;
+	background-position: center 0;
+    background-repeat: no-repeat;
+    background-color: #055EB0;
 }
 .frame-reg p{
 	padding-top: 194px;
@@ -226,7 +229,9 @@ p{
 .frame-team{
 	text-align: center;
 	background-image: url('../img/frames/reg/bg.jpg');
-	background-repeat: no-repeat;
+	background-position: center 0;
+    background-repeat: no-repeat;
+    background-color: #055EB0;
 	padding-bottom: 45px;
 }
 .frame-team__title{
@@ -271,22 +276,36 @@ form span.error {
 	position: relative;
 	padding-bottom: 30px;
 	background-image: url('../img/frames/base-bg.jpg');
+	background-position: center 0;
+    background-repeat: no-repeat;
+    background-color: #055EB0;
+}
+
+.frame-game-start::before{
+	content: '';
+    position: absolute;
+    width: 600px;
+    height: 100%;
+    left: -500px;
+    right: -500px;
+    top: 0;
+    margin: auto;
+    background: url('../img/frames/base-bg.jpg') center 0/600px no-repeat;
 }
 
 .frame-game-start::after{
 	content: '';
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
-	width: 100%;
-	height: 100%;
-	right: 0;
-	top: 0;
-	margin: auto;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: contain;
-	background-image: linear-gradient(180deg, rgba(8, 99, 179, 0.00) 0%, #0862B3 100%);
+    position: absolute;
+    width: 600px;
+    height: 100%;
+    left: -500px;
+    right: -500px;
+    top: 0;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background: linear-gradient(180deg, rgba(8, 99, 179, 0.00) 0%, #0862B3 100%);
 }
 
 .frame__game-start__bg{
@@ -460,6 +479,7 @@ form span.error {
 	user-select: none;
 	height: 100%;
 }
+
 .game-main__bg img{
 	user-select: none;
 }
@@ -517,6 +537,9 @@ form span.error {
 	transform: translateY(-50px);
 	opacity: 0;
 	transition:  all .3s ease-in;
+	border-radius: 10px;
+	overflow: hidden;
+	z-index: 2;
 }
 
 .stopwatch.active{
@@ -547,10 +570,24 @@ form span.error {
 
 .stopwatch.error .stopwatch__inner{
 	border: 3px solid #E80505;
-	border-radius: 10px 10px 0px 0px;
+	/* border-radius: 10px 10px 0px 0px; */
 }
 .stopwatch.error .stopwatch__digits{
 	color: #E80505;
+}
+
+.stopwatch.error .stopwatch__inner::after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	margin: auto;
+	background-color: red;
+	z-index: -1;
+	border-radius: 10px 10px 0px 0px;
+	
 }
 
 .stopwatch.error .stopwatch__info{
@@ -1054,35 +1091,39 @@ form span.error {
 body{
 	overscroll-behavior: none;
 	-webkit-overscroll-behavior: none;
+
+	background-image: url(../img/frames/base-bg.jpg);
+    background-position: center 0;
+    background-repeat: no-repeat;
+    background-color: #055EB0;
 }
 
 .debug .game-slider__slide > div {
 	background: #08b3746e;
 }
 .debug .game-hitbox {
-	border: 1px solid !important;
+	border-width: 1px !important;
+	border-style: solid;
 }
 
 .debug .game-drags__item img {
 	opacity: .3 !important;
 }
 
-
-/* .debug
-.debug
-.debug
-.debug */
+.debug #game2 .game-drags__item {
+	background-color: red !important;
+}
 
 /* /sanya css */
-/* .wrap {
+.wrap {
     max-width: 600px;
     width: 100%;
-    background-image: url(../img/frames/base-bg.jpg);
+    /* background-image: url(../img/frames/base-bg.jpg);
     background-position: center 0;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
     background-color: #055EB0;
     min-height: 568px;
-    height: 100vh;
+    /* height: 100vh; */
     position: relative;
     margin: auto;
 }
@@ -1119,5 +1160,6 @@ body{
     width: 100%;
     height: 100%;
     pointer-events: none;
-} */
+}
+
 /* sanya css/ */
