@@ -137,10 +137,11 @@ switchLogo('logo');
 appFrames.hideOverlay();
 appFrames.showFrame('start');
 
+document.body.classList.add('debug')
 // appFrames.showFrame('game1');
 // appFrames.showFrame('ratings');
-// appFrames.showFrame('game3Rules');
-// appFrames.showGame('game1')
+// appFrames.showFrame('game2Rules');
+// appFrames.showGame('game3')
 // appFrames.showOverlay('game3Win')
 // appFrames.showFrame('game1-winframe');
 
@@ -165,13 +166,15 @@ const gameStartButtons = document.querySelectorAll('[data-game-link]');
 	})
 })
 
-const winFrames = ['game1-winframe', 'game2Rules', 'game3Rules'];
+const winFrames = ['game1-winframe', 'game2Rules', 'game3-winframe'];
 winFrames.forEach(f => {
-	document.querySelector(`[data-frame-link="${f}"]`).addEventListener('click', () => {
-		switchLogo('logo');
-		appFrames.hideOverlay();
-		appFrames.hideGames();
-		appFrames.showFrame(f);
+	[...document.querySelectorAll(`[data-frame-link="${f}"]`)].forEach(el => {
+		el.addEventListener('click', () => {
+			switchLogo('logo');
+			appFrames.hideOverlay();
+			appFrames.hideGames();
+			appFrames.showFrame(f);
+		});
 	})
 })
 // appFrames.showOverlay('game1Lose');

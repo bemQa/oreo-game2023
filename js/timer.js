@@ -17,6 +17,9 @@ class Countdown {
 			opacity: 1,
 		})
 		tl.to(one, {
+			opacity: 1,
+		})
+		tl.to(one, {
 			opacity: 0,
 		})
 		tl.to(two, {

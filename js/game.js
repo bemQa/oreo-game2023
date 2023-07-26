@@ -37,7 +37,6 @@ class Game {
 		const hitTest = this.hitTest.bind(this);
 		const items = [...this.items];
 		const self = this;
-		console.log(self.checkClones)
 		this.checkClones = this.checkClones.bind(this);
 
 		[...this.sliderItems].forEach((sliderItem, i) => {
