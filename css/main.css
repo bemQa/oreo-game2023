@@ -468,12 +468,15 @@ form span.error {
 }
 .game__inner {
 }
-.game-main {
+.game-main, .game-drag-area {
 	position: absolute;
 	/* overflow: hidden; */
 	width: 100%;
 	height: 100%;
 	z-index: 0;
+}
+.game-drag-area{
+	/* pointer-events: none; */
 }
 .game-main__bg {
 	user-select: none;
@@ -1163,4 +1166,12 @@ body{
     pointer-events: none;
 }
 
+.no-scroll {
+	top: 0;
+	left: 0;
+	position: fixed;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
 /* sanya css/ */

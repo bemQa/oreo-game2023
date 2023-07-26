@@ -1,3 +1,12 @@
+
+function debounce(fn, delay) {
+	let timer;
+	return (() => {
+		clearTimeout(timer);
+		timer = setTimeout(() => fn(), delay);
+	})();
+};
+
 class Game {
 	root;
 	nodeDragArea;
@@ -37,19 +46,28 @@ class Game {
 		const hitTest = this.hitTest.bind(this);
 		const items = [...this.items];
 		const self = this;
+		const gameDrag = this.itemsWrap; 
 		this.checkClones = this.checkClones.bind(this);
-
+		let dragObject = {};
 		// for slider
 		[...this.sliderItems].forEach((sliderItem, i) => {
 			const sliderImage = sliderItem.querySelector('img');
-			sliderImage.onmousedown = function(e) {
+
+			// debounce(f, ms)
+			function drags (e) {
+				console.log(e)
 				const item = items[i];
 				if(!self.checkClones(item)){
 					sliderImage.classList.add('active');
 					return
 				}
+
 				
 				const itemToDrag = item.cloneNode(true);
+
+				dragObject.elem = item;
+				dragObject.downX = e.clientX;
+  				dragObject.downY = e.clientY;
 
 				itemToDrag.classList.add('active');
 
@@ -59,6 +77,7 @@ class Game {
 				itemToDrag.style.position = 'absolute';
 
 				bg.appendChild(itemToDrag);
+
 				moveAt(e);
 
 				function moveAt(e) {
@@ -67,10 +86,23 @@ class Game {
 				}
 	
 				document.onmousemove = function(e) {
+					if (!dragObject.elem) return;
+
+					dragObject.diffX = e.clientX - dragObject.downX;
+					dragObject.diffY = e.clientY - dragObject.downY;
+
+					
+					// console.log(dragObject.diffX, dragObject.diffY)
 					moveAt(e);
 				};
 	
 				itemToDrag.onmouseup = function(e) {
+					
+					if ( Math.abs(dragObject.diffX) < 75 && Math.abs(dragObject.diffY) < 100 ) {
+						console.log('Math.abs(moveX) < 10 && Math.abs(moveY) < 30')
+						bg.removeChild(itemToDrag);
+						return;
+					}
 					
 					self.activeItems.push(itemToDrag);
 					console.log(self.activeItems)
@@ -82,11 +114,14 @@ class Game {
 						bg.removeChild(itemToDrag);
 					}
 					
+					dragObject = {};
 					document.onmousemove = null;
 					sliderImage.onmouseup = null;
 				};
-	
 			}
+			const boundedDrags = drags.bind(this)
+			// sliderImage.onmousedown = debounce(drags, 100);
+			sliderImage.onmousedown = drags;
 	
 			sliderImage.ondragstart = function() {
 				return false;
@@ -118,7 +153,7 @@ class Game {
 				
 					itemToDrag.onmouseup = function(e) {
 						console.log('onmouseup initItemDragsBg')
-						
+
 						if(hitTest(itemToDrag) == true){
 							// bg.appendChild(itemToDrag);
 						} else {
@@ -145,96 +180,106 @@ class Game {
 			})
 		}
 
-		// [...this.sliderItems].forEach((sliderItem, i) => {
-		// 	sliderItem.addEventListener('touchstart',(e) => {
-		// 		console.log('touchstart')
-		// 		const item = items[i];
-		// 		console.log(self.checkClones(item, self.activeItems))
-		// 		if(!self.checkClones(item)){
-		// 			sliderItem.classList.add('active');
-		// 			return
-		// 		}
-		// 		const itemToDrag = item.cloneNode(true);
+		[...this.sliderItems].forEach((sliderItem, i) => {
+			const sliderImage = sliderItem.querySelector('img');
 
-		// 		itemToDrag.classList.add('active');
+			sliderImage.addEventListener('touchstart',(e) => {
+				e.preventDefault();
+				document.body.classList.add('no-scroll');
+				console.log('touchstart')
+				const item = items[i];
+				console.log(self.checkClones(item, self.activeItems))
+				if(!self.checkClones(item)){
+					sliderImage.classList.add('active');
+					return
+				}
+				const itemToDrag = item.cloneNode(true);
+
+				itemToDrag.classList.add('active');
 	
-		// 		let itemCoords = getCoords(itemToDrag);
-		// 		console.log(e.changedTouches[0], itemCoords, gameFrameBox)
+				let itemCoords = getCoords(itemToDrag);
+				console.log(e.changedTouches[0], itemCoords, gameFrameBox)
 	
-		// 		itemToDrag.style.position = 'absolute';
-		// 		bg.appendChild(itemToDrag);
-		// 		moveAt(e);
+				itemToDrag.style.position = 'absolute';
+				bg.appendChild(itemToDrag);
+				moveAt(e);
 	
-		// 		function moveAt(e) {
-		// 			itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
-		// 			itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
-		// 		}
+				function moveAt(e) {
+					itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+					itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+				}
 	
-		// 		document.ontouchmove = function(e) {
-		// 			moveAt(e);
-		// 		};
-	
-		// 		itemToDrag.ontouchend = function(e) {
-		// 			console.log('ontouchend')
-		// 			self.activeItems.push(itemToDrag);
-		// 			initItemDragsBgMobile();
+				document.ontouchmove = function(e) {
+					e.preventDefault();
+					moveAt(e);
+				};
+				sliderImage.addEventListener('touchend' , (e) => {
+					e.preventDefault();
+					console.log('ontouchend')
+					document.body.classList.remove('no-scroll');
+					self.activeItems.push(itemToDrag);
+					console.log(self.activeItems)
+					initItemDragsBgMobile();
 					
-		// 			hitTest(itemToDrag);
-		// 			document.ontouchmove = null;
-		// 			sliderItem.ontouchend = null;
-		// 		};
+					hitTest(itemToDrag);
+					document.ontouchmove = null;
+					sliderImage.ontouchend = null;
 
-		// 	})
-	
-		// 	sliderItem.ontouchstart = function() {
-		// 		return false;
-		// 	};
-	
-		// 	function getCoords(elem) {
-		// 		let box = elem.getBoundingClientRect();
-		// 		return box;
-		// 	}
+				})
+				// .ontouchend = function(e) {
+				// };
 
-		// });
-
-		// function initItemDragsBgMobile() {
-		// 	[...self.activeItems].forEach((itemToDrag, i) => {
-		// 		itemToDrag.addEventListener('touchstart', (e) => {
-		// 			let itemCoords = getCoords(itemToDrag);
-		
-		// 			itemToDrag.style.position = 'absolute';
-		// 			bg.appendChild(itemToDrag);
-		// 			moveAt(e);
+			})
 	
-		// 			function moveAt(e) {
-		// 				itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
-		// 				itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
-		// 			}
-		
-		// 			document.ontouchmove = function(e) {
-		// 				moveAt(e);
-		// 			};
-		
-		// 			itemToDrag.ontouchend = function(e) {
-		// 				console.log('ontouchend')
-		// 				hitTest(itemToDrag);
-		// 				document.ontouchmove = null;
-		// 				itemToDrag.ontouchend = null;
-		// 			};
-
-		// 		})
-		
-		// 		itemToDrag.ondragstart = function() {
-		// 			return false;
-		// 		};
-		
-		// 		function getCoords(elem) {
-		// 			let box = elem.getBoundingClientRect();
-		// 			return box;
-		// 		}
+			sliderItem.ontouchstart = function() {
+				return false;
+			};
 	
-		// 	})
-		// }
+			function getCoords(elem) {
+				let box = elem.getBoundingClientRect();
+				return box;
+			}
+
+		});
+
+		function initItemDragsBgMobile() {
+			[...self.activeItems].forEach((itemToDrag, i) => {
+				itemToDrag.addEventListener('touchstart', (e) => {
+					let itemCoords = getCoords(itemToDrag);
+		
+					itemToDrag.style.position = 'absolute';
+					bg.appendChild(itemToDrag);
+					moveAt(e);
+	
+					function moveAt(e) {
+						itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+						itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+					}
+		
+					document.ontouchmove = function(e) {
+						moveAt(e);
+					};
+		
+					itemToDrag.ontouchend = function(e) {
+						console.log('ontouchend')
+						hitTest(itemToDrag);
+						document.ontouchmove = null;
+						itemToDrag.ontouchend = null;
+					};
+
+				})
+		
+				itemToDrag.ondragstart = function() {
+					return false;
+				};
+		
+				function getCoords(elem) {
+					let box = elem.getBoundingClientRect();
+					return box;
+				}
+	
+			})
+		}
 	}
 
 	checkClones(item, activeItems){
@@ -285,18 +330,44 @@ class Game {
 	checkWin(itemsOnTest){
 		console.log(itemsOnTest);
 		const testVal = itemsOnTest.map(item => item.dataset.item).sort();
+		const filteredVal = testVal.filter(v => {
+			return v != 'g333';
+		})
+
 		const winCondition = ['g228', 'g95', 'g95', 'g95'];
 		
-		console.log(testVal)
-		if(testVal.length != winCondition.length){
+		console.log(winCondition, filteredVal)
+		if(testVal.length != 8){
 			return
 		}
 		
-		if(this.arrayEquals(testVal, winCondition)){
+		const indexForWin = this.findSubArray(filteredVal, winCondition)
+		if(!indexForWin){
+			return
+		}
+		console.log(this.findSubArray(filteredVal, winCondition))
+
+		const winTest = filteredVal.slice(indexForWin, indexForWin + winCondition.length);
+
+		if(this.arrayEquals(winTest, winCondition)){
 			this.settings.onWin(this);
 		} else {
 			this.checkGameOver();
 		}
+	}
+
+	findSubArray(arr, subarr, from_index) {
+		var i = from_index >>> 0,
+			sl = subarr.length,
+			l = arr.length + 1 - sl;
+	
+		loop: for (; i<l; i++) {
+			for (var j=0; j<sl; j++)
+				if (arr[i+j] !== subarr[j])
+					continue loop;
+			return i;
+		}
+		return -1;
 	}
 
 	restart(){
