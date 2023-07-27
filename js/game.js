@@ -235,19 +235,19 @@ class Game {
 
 		const winCondition = ['g228', 'g95', 'g95', 'g95'];
 		
-		console.log(winCondition, filteredVal)
+		console.log(winCondition, filteredVal, testVal)
 		if(testVal.length != 8){
 			return
 		}
 		
 		const indexForWin = this.findSubArray(filteredVal, winCondition)
-		if(!indexForWin){
-			return
-		}
+		console.log(indexForWin)
+
 		console.log(this.findSubArray(filteredVal, winCondition))
-
+		
 		const winTest = filteredVal.slice(indexForWin, indexForWin + winCondition.length);
-
+		
+		console.log(winTest)
 		if(this.arrayEquals(winTest, winCondition)){
 			this.settings.onWin(this);
 		} else {
