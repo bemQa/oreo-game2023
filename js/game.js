@@ -573,17 +573,13 @@ class Game2 {
 
 	hitTest(item){
 		const hitboxes = [...this.hitboxes];
-		const hitboxIntersects = [];
 		const activeItems = [...this.items].filter(item => item.classList.contains('active'));
 
+		if(activeItems.length != 4){
+			return
+		}
+
 		let temp = [];
-
-		// [1 - обертка,2 - красный хитбокс,1 - обертка,2 - красный]
-		// нужно собирать отдельный массив из пары элементов [1 - обертка, 2 - хитбокс]
-		// полученный массив пушить в главный массив, тем самым получая результат [[1 - обертка, 2 - хитбокс], [1 - обертка, 2 - хитбокс], [1 - обертка, 2 - хитбокс]]
-		// [[1,2],[1],[1],[2]]
-
-		// [[div.game-hitbox.orange, div.game-hitbox], [div.game-hitbox], [div.game-hitbox]]
 
 		hitboxes.forEach((h, i) => {
 			activeItems.forEach((activeItem) => {
@@ -592,62 +588,29 @@ class Game2 {
 				const iRect = activeItem.getBoundingClientRect()
 				
 				if(this.findContainment(iRect, hRect) == 'contained'){
-					temp.push(h)
-					hitboxIntersects.push(temp)
-					
-					// this.itemsOnTest.push(item.dataset.item)
+					temp.push(h.dataset.hitbox);
+					console.log(temp)
 				}
 			})
-
+			
 		})
-
-		console.log(hitboxIntersects, 'hitboxIntersects')
-		if(hitboxIntersects.length){
-			this.hitboxesOnTest.push(hitboxIntersects[hitboxIntersects.length - 1]);
-			console.log(hitboxIntersects)
-			this.checkWin();
-		}
-
+		console.log(temp)
+		this.checkWin(temp);
 	}
 
-	checkWin(){
-		const winCondition = ['0', '0', '0', '0'];
-		const activeItems = [...this.items].filter(item => item.classList.contains('active'));
-		if(activeItems.length != winCondition.length){
-			return
-		}
+	checkWin(testValRaw){
+		const winCondition = ['1', '1', '1', '1'];
+		const testVal = testValRaw.slice(testValRaw.length - 4)
 		
-		const testValues = this.hitboxesOnTest.map(item => item.dataset.hitbox);
-		console.log(testValues)
-		const hitboxes = [...this.hitboxes].filter(h => '1' != h.dataset.hitbox ).sort();
-		const itemsOnTest = this.hitboxesOnTest.sort((a, b) => {
-			return parseInt(a.dataset.order) - parseInt(b.dataset.order)
-		});
-		const sordtedHb = [...this.hitboxes].sort((a, b) => {
-			return parseInt(a.dataset.order) - parseInt(b.dataset.order)
-		});
-		
-		console.log(itemsOnTest, testValues);
-		
-		if(!this.arrayEquals(testValues, winCondition)){
+		if(!this.arrayEquals(testVal, winCondition)){
 			console.log('winCond false')
-			this.settings.onLose(this);
 			this.checkGameOver();
 			return
+		} else {
+			this.settings.onWin(this);
 		}
 		
-		console.log(hitboxes, itemsOnTest);
-		hitboxes.forEach((h, i) => {
-			console.log(h.isSameNode(itemsOnTest[i]));
-		})
-		
-		if(!this.arrayEquals(hitboxes, itemsOnTest)){
-			this.settings.onLose(this);
-			this.checkGameOver();
-			return
-		}
 
-		this.settings.onWin(this);
 	}
 
 	restart(){
@@ -665,9 +628,11 @@ class Game2 {
 	checkGameOver(){
 		this.lives -= 1;
 		if(this.lives <= 0){
-			if(this.settings.onGameOver){
-				this.settings.onGameOver();
-			}
+			this.settings.onGameOver();
+			// if(this.settings.onGameOver){
+			// }
+		} else {
+			this.settings.onLose(this);
 		}
 	}
 	
