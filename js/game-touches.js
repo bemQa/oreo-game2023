@@ -48,98 +48,32 @@ class Game {
 		const self = this;
 		const gameDrag = this.itemsWrap; 
 		this.checkClones = this.checkClones.bind(this);
-		let dragObject = {};
+		const removeBgItems = this.removeBgItems.bind(this);
 		// for slider
-		[...this.sliderItems].forEach((sliderItem, i) => {
-			const sliderImage = sliderItem.querySelector('img');
+		
+		if(window.innerWidth > 600){
 
-			// debounce(f, ms)
-			function drags (e) {
-				console.log(e)
-				const item = items[i];
-				if(!self.checkClones(item)){
-					sliderImage.classList.add('active');
-					return
-				}
-
-				
-				const itemToDrag = item.cloneNode(true);
-
-				dragObject.elem = item;
-				dragObject.downX = e.clientX;
-  				dragObject.downY = e.clientY;
-
-				itemToDrag.classList.add('active');
-
-				let itemCoords = getCoords(itemToDrag);
-				console.log(e.clientX, itemCoords, gameFrameBox)
-	
-				itemToDrag.style.position = 'absolute';
-
-				bg.appendChild(itemToDrag);
-
-				moveAt(e);
-
-				function moveAt(e) {
-					itemToDrag.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
-					itemToDrag.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
-				}
-	
-				document.onmousemove = function(e) {
-					if (!dragObject.elem) return;
-
-					dragObject.diffX = e.clientX - dragObject.downX;
-					dragObject.diffY = e.clientY - dragObject.downY;
-
-					
-					// console.log(dragObject.diffX, dragObject.diffY)
-					moveAt(e);
-				};
-	
-				itemToDrag.onmouseup = function(e) {
-					
-					if ( Math.abs(dragObject.diffX) < 75 && Math.abs(dragObject.diffY) < 100 ) {
-						console.log('Math.abs(moveX) < 10 && Math.abs(moveY) < 30')
-						bg.removeChild(itemToDrag);
-						return;
+			[...this.sliderItems].forEach((sliderItem, i) => {
+				const sliderImage = sliderItem.querySelector('img');
+				// debounce(f, ms)
+				function drags (e) {
+					const item = items[i];
+					if(!self.checkClones(item)){
+						sliderImage.classList.add('active');
+						return
 					}
-					
-					self.activeItems.push(itemToDrag);
-					console.log(self.activeItems)
-					initItemDragsBg()
-					
-					if(hitTest(itemToDrag) == true){
-						// bg.appendChild(itemToDrag);
-					} else {
-						bg.removeChild(itemToDrag);
-					}
-					
-					dragObject = {};
-					document.onmousemove = null;
-					sliderImage.onmouseup = null;
-				};
-			}
-			const boundedDrags = drags.bind(this)
-			// sliderImage.onmousedown = debounce(drags, 100);
-			sliderImage.onmousedown = drags;
 	
-			sliderImage.ondragstart = function() {
-				return false;
-			};
+					removeBgItems();
+					const itemToDrag = item.cloneNode(true);
 	
-			function getCoords(elem) {
-				let box = elem.getBoundingClientRect();
-				return box;
-			}
-
-		});
-
-		// for bg items after d&d
-		function initItemDragsBg() {
-			[...self.activeItems].forEach((itemToDrag, i) => {
-				itemToDrag.onmousedown = function(e) {
+					itemToDrag.classList.add('active');
+	
 					let itemCoords = getCoords(itemToDrag);
-				
+		
+					itemToDrag.style.position = 'absolute';
+	
+					bg.appendChild(itemToDrag);
+	
 					moveAt(e);
 	
 					function moveAt(e) {
@@ -148,27 +82,35 @@ class Game {
 					}
 		
 					document.onmousemove = function(e) {
+						
+						// console.log(dragObject.diffX, dragObject.diffY)
 						moveAt(e);
 					};
-				
+		
 					itemToDrag.onmouseup = function(e) {
-						console.log('onmouseup initItemDragsBg')
-
+						
+						self.activeItems.push(itemToDrag);
+						console.log(self.activeItems)
+						initItemDragsBg()
+						
 						if(hitTest(itemToDrag) == true){
 							// bg.appendChild(itemToDrag);
+							itemToDrag.classList.add('in-hitbox');
+							
 						} else {
 							bg.removeChild(itemToDrag);
 						}
-
-						hitTest(itemToDrag);
+						
 						document.onmousemove = null;
-
-						itemToDrag.onmouseup = null;
+						sliderImage.onmouseup = null;
+	
 					};
-		
 				}
+				const boundedDrags = drags.bind(this)
+				// sliderImage.onmousedown = debounce(drags, 100);
+				sliderImage.onmousedown = drags;
 		
-				itemToDrag.ondragstart = function() {
+				sliderImage.ondragstart = function() {
 					return false;
 				};
 		
@@ -177,78 +119,76 @@ class Game {
 					return box;
 				}
 	
-			})
-		}
-
-		[...this.sliderItems].forEach((sliderItem, i) => {
-			const sliderImage = sliderItem.querySelector('img');
-
-			sliderImage.addEventListener('touchstart',(e) => {
-				e.preventDefault();
-				document.body.classList.add('no-scroll');
-				console.log('touchstart')
-				const item = items[i];
-				console.log(self.checkClones(item, self.activeItems))
-				if(!self.checkClones(item)){
-					sliderImage.classList.add('active');
-					return
-				}
-				const itemToDrag = item.cloneNode(true);
-
-				itemToDrag.classList.add('active');
+			});
 	
-				let itemCoords = getCoords(itemToDrag);
-				console.log(e.changedTouches[0], itemCoords, gameFrameBox)
-	
-				itemToDrag.style.position = 'absolute';
-				bg.appendChild(itemToDrag);
-				moveAt(e);
-	
-				function moveAt(e) {
-					itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
-					itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
-				}
-	
-				document.ontouchmove = function(e) {
-					e.preventDefault();
-					moveAt(e);
-				};
-				sliderImage.addEventListener('touchend' , (e) => {
-					e.preventDefault();
-					console.log('ontouchend')
-					document.body.classList.remove('no-scroll');
-					self.activeItems.push(itemToDrag);
-					console.log(self.activeItems)
-					initItemDragsBgMobile();
+			// for bg items after d&d
+			function initItemDragsBg() {
+				[...self.activeItems].forEach((itemToDrag, i) => {
+					itemToDrag.onmousedown = function(e) {
+						let itemCoords = getCoords(itemToDrag);
 					
-					hitTest(itemToDrag);
-					document.ontouchmove = null;
-					sliderImage.ontouchend = null;
-
+						moveAt(e);
+		
+						function moveAt(e) {
+							itemToDrag.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+							itemToDrag.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+						}
+			
+						document.onmousemove = function(e) {
+							moveAt(e);
+						};
+					
+						itemToDrag.onmouseup = function(e) {
+							console.log('onmouseup initItemDragsBg')
+	
+							if(hitTest(itemToDrag) == true){
+								// bg.appendChild(itemToDrag);
+							} else {
+								bg.removeChild(itemToDrag);
+							}
+	
+							hitTest(itemToDrag);
+							document.onmousemove = null;
+	
+							itemToDrag.onmouseup = null;
+						};
+			
+					}
+			
+					itemToDrag.ondragstart = function() {
+						return false;
+					};
+			
+					function getCoords(elem) {
+						let box = elem.getBoundingClientRect();
+						return box;
+					}
+		
 				})
-				// .ontouchend = function(e) {
-				// };
-
-			})
-	
-			sliderItem.ontouchstart = function() {
-				return false;
-			};
-	
-			function getCoords(elem) {
-				let box = elem.getBoundingClientRect();
-				return box;
 			}
 
-		});
+		}
 
-		function initItemDragsBgMobile() {
-			[...self.activeItems].forEach((itemToDrag, i) => {
-				itemToDrag.addEventListener('touchstart', (e) => {
+
+		if(window.innerWidth <= 600){
+			// mobile slider
+			[...this.sliderItems].forEach((sliderItem, i) => {
+				const sliderImage = sliderItem.querySelector('img');
+				function drags (e) {
+					console.log(e)
+					const item = items[i];
+					if(!self.checkClones(item)){
+						sliderImage.classList.add('active');
+						return
+					}
+	
+					removeBgItems();
+					const itemToDrag = item.cloneNode(true);
+					itemToDrag.classList.add('active');
 					let itemCoords = getCoords(itemToDrag);
-		
 					itemToDrag.style.position = 'absolute';
 					bg.appendChild(itemToDrag);
+	
 					moveAt(e);
 	
 					function moveAt(e) {
@@ -260,16 +200,28 @@ class Game {
 						moveAt(e);
 					};
 		
-					itemToDrag.ontouchend = function(e) {
-						console.log('ontouchend')
-						hitTest(itemToDrag);
+					sliderImage.ontouchend = function(e) {
+						console.log('ontouchend slider')
+						self.activeItems.push(itemToDrag);
+						console.log(self.activeItems)
+						initItemDragsBgMobile()
+						
+						if(hitTest(itemToDrag) == true){
+							// bg.appendChild(itemToDrag);
+							itemToDrag.classList.add('in-hitbox');
+							
+						} else {
+							bg.removeChild(itemToDrag);
+						}
+	
 						document.ontouchmove = null;
-						itemToDrag.ontouchend = null;
+						sliderImage.ontouchend = null;
 					};
-
-				})
+				}
+	
+				sliderImage.ontouchstart = drags;
 		
-				itemToDrag.ondragstart = function() {
+				sliderImage.ondragstart = function() {
 					return false;
 				};
 		
@@ -278,8 +230,69 @@ class Game {
 					return box;
 				}
 	
-			})
+			});
+	
+			// for bg items after d&d
+			function initItemDragsBgMobile() {
+				console.log([...self.activeItems]);
+
+				[...self.activeItems].forEach((itemToDrag, i) => {
+					itemToDrag.ontouchstart = function(e) {
+						console.log('ontouchstart item')
+						let itemCoords = getCoords(itemToDrag);
+					
+						moveAt(e);
+		
+						function moveAt(e) {
+							itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+							itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+						}
+			
+						document.ontouchmove = function(e) {
+							console.log('ontouchmove item')
+							moveAt(e);
+						};
+					
+						itemToDrag.ontouchend = function(e) {
+							console.log('ontouchend initItemDragsBg')
+	
+							if(hitTest(itemToDrag) == true){
+								// bg.appendChild(itemToDrag);
+							} else {
+								bg.removeChild(itemToDrag);
+							}
+	
+							hitTest(itemToDrag);
+							document.onmousemove = null;
+	
+							itemToDrag.onmouseup = null;
+						};
+			
+					}
+			
+					itemToDrag.ondragstart = function() {
+						return false;
+					};
+			
+					function getCoords(elem) {
+						let box = elem.getBoundingClientRect();
+						return box;
+					}
+		
+				})
+			}
+
+			
 		}
+
+	}
+
+	removeBgItems () {
+		[...this.root.querySelectorAll('.game-main__bg .game-drags__item')].forEach(activeItem => {
+			if(!activeItem.classList.contains('in-hitbox')){
+				activeItem.remove();
+			}
+		})
 	}
 
 	checkClones(item, activeItems){
@@ -297,7 +310,6 @@ class Game {
 	hitTest(itemTest){
 		const hitboxes = [...this.hitboxes];
 		const activeItems = [...this.activeItems];
-		console.log(activeItems)
 		const itemsOnTest = [];
 		let found = false;
 
@@ -335,19 +347,19 @@ class Game {
 
 		const winCondition = ['g228', 'g95', 'g95', 'g95'];
 		
-		console.log(winCondition, filteredVal)
+		console.log(winCondition, filteredVal, testVal)
 		if(testVal.length != 8){
 			return
 		}
 		
 		const indexForWin = this.findSubArray(filteredVal, winCondition)
-		if(!indexForWin){
-			return
-		}
+		console.log(indexForWin)
+
 		console.log(this.findSubArray(filteredVal, winCondition))
-
+		
 		const winTest = filteredVal.slice(indexForWin, indexForWin + winCondition.length);
-
+		
+		console.log(winTest)
 		if(this.arrayEquals(winTest, winCondition)){
 			this.settings.onWin(this);
 		} else {
@@ -370,8 +382,8 @@ class Game {
 	}
 
 	restart(){
-		[...this.activeItems].forEach(item => item.classList.remove('active'));
-		this.activeItems = [];
+
+		[...this.root.querySelectorAll('.game-main__bg .game-drags__item')].forEach(item => item.remove());
 		[...this.items].forEach((item, i) => {
 			this.itemsWrap.appendChild(item)
 			item.classList.remove('active');
@@ -392,17 +404,6 @@ class Game {
 		const brE = element;
 		const brC = container;
 	  
-		// if (
-		//   /* Does container left or right edge pass through element? */
-		//   (brE.left < brC.left && brE.right > brC.left) ||
-		//   (brE.left < brC.right && brE.right > brC.right) ||
-		//   /* Does container top or bottom edge pass through element? */
-		//   (brE.top < brC.top && brE.bottom > brC.top) ||
-		//   (brE.top < brC.bottom && brE.bottom > brC.bottom)) {
-	  
-		//   return "overlap";
-		// }
-
 		if (
 		  brE.left >= brC.left &&
 		  brE.top >= brC.top &&
@@ -423,15 +424,6 @@ class Game {
 	}
 
 	intersectRect(r1, r2) {
-		// const xOverlapPX = Math.abs(r1.left - r2.left - (r1.width - r2.width));
-		// const xOverlapPercentsDiff = xOverlapPX / r1.width;
-		// const yOverlapPX = Math.abs(r1.top - r2.top - (r1.height - r2.height));
-		// const yOverlapPercentsDiff = yOverlapPX / r1.height;
-		// console.log(xOverlapPercentsDiff, yOverlapPercentsDiff)
-		// if(!(xOverlapPercentsDiff < .1 && yOverlapPercentsDiff < .25)){
-		// 	return false
-		// }
-		// const xOverlapPX = Math.abs(r2.left - r1.left);
 		console.log(r2.left, r1.left)
 
 
@@ -484,49 +476,99 @@ class Game2 {
 		const gameFrameBox = this.root.querySelector('.game-main').getBoundingClientRect();
 		const hitTest = this.hitTest.bind(this);
 
-		[...this.items].forEach(item => {
-			item.onmousedown = function(e) {
-				console.log(e)
-				let itemCoords = getCoords(item);
-				console.log(e.clientX, itemCoords, gameFrameBox)
-				
-				item.style.position = 'absolute';
-				item.classList.add('active');
-				// if(item.classList.contains('active')){
-				// 	return
-				// }
-				moveAt(e);
-				bg.appendChild(item);
-	
-				// item.style.zIndex = 100; // над другими элементами
-	
-				function moveAt(e) {
-					item.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
-					item.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+		if(window.innerWidth > 600){
+			[...this.items].forEach(item => {
+				item.onmousedown = function(e) {
+					console.log(e)
+					let itemCoords = getCoords(item);
+					console.log(e.clientX, itemCoords, gameFrameBox)
+					
+					item.style.position = 'absolute';
+					item.classList.add('active');
+					// if(item.classList.contains('active')){
+					// 	return
+					// }
+					moveAt(e);
+					bg.appendChild(item);
+		
+					// item.style.zIndex = 100; // над другими элементами
+		
+					function moveAt(e) {
+						item.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+						item.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+					}
+		
+					document.onmousemove = function(e) {
+						moveAt(e);
+					};
+		
+					item.onmouseup = function() {
+						hitTest(item);
+						document.onmousemove = null;
+						item.onmouseup = null;
+					};
+		
+				}
+		
+				item.ondragstart = function() {
+					return false;
+				};
+		
+				function getCoords(elem) {
+					let box = elem.getBoundingClientRect();
+					return box;
 				}
 	
-				document.onmousemove = function(e) {
-					moveAt(e);
-				};
-	
-				item.onmouseup = function() {
-					hitTest(item);
-					document.onmousemove = null;
-					item.onmouseup = null;
-				};
-	
-			}
-	
-			item.ondragstart = function() {
-				return false;
-			};
-	
-			function getCoords(elem) {
-				let box = elem.getBoundingClientRect();
-				return box;
-			}
+			})
+		}
 
-		})
+		if(window.innerWidth <= 600) {
+			console.log([...this.items]);
+			[...this.items].forEach(item => {
+				item.ontouchstart = function(e) {
+					console.log(e)
+					let itemCoords = getCoords(item);
+					console.log(e.clientX, itemCoords, gameFrameBox)
+					
+					item.style.position = 'absolute';
+					item.classList.add('active');
+					// if(item.classList.contains('active')){
+					// 	return
+					// }
+					moveAt(e);
+					bg.appendChild(item);
+		
+					// item.style.zIndex = 100; // над другими элементами
+		
+					function moveAt(e) {
+						item.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+						item.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+					}
+		
+					document.ontouchmove = function(e) {
+						moveAt(e);
+					};
+		
+					item.ontouchend = function() {
+						hitTest(item);
+						document.onmousemove = null;
+						item.onmouseup = null;
+					};
+		
+				}
+		
+				item.ondragstart = function() {
+					return false;
+				};
+		
+				function getCoords(elem) {
+					let box = elem.getBoundingClientRect();
+					return box;
+				}
+	
+			})
+
+		} 
 	}
 
 	hitTest(item){
@@ -673,6 +715,7 @@ class Game2 {
 
 
 
+
 class Game3 {
 	root;
 	nodeDragArea;
@@ -700,6 +743,7 @@ class Game3 {
 		this.itemsWrap = root.querySelector('.game-drags');
 		this.items.forEach(item => this.itemDefaultStyles.push(item.getAttribute('style')));
 		this.root.querySelector('.button').addEventListener('click', () => {
+			this.removeBgItems();
 			this.hitTest();
 		})
 
@@ -716,69 +760,30 @@ class Game3 {
 		const items = [...this.items];
 		const activeItems = this.activeItems;
 		this.checkClones = this.checkClones.bind(this);
+		const hitTestDrag = this.hitTestDrag.bind(this);
+		const removeBgItems = this.removeBgItems.bind(this);
 
-		[...this.sliderItems].forEach((sliderItem, i) => {
-			const sliderImage = sliderItem.querySelector('img');
-			sliderImage.addEventListener('mousedown', (e) => {
-				const item = items[i];
-				if(!this.checkClones(item)){
-					sliderImage.classList.add('active');
-					return
-				}
-				const itemToDrag = item.cloneNode(true);
-				
-				itemToDrag.classList.add('active');
-	
-				let itemCoords = getCoords(itemToDrag);
-				// console.log(e.clientX, itemCoords, gameFrameBox)
-	
-				itemToDrag.style.position = 'absolute';
-				bg.appendChild(itemToDrag);
-				moveAt(e);
-	
-				function moveAt(e) {
-					itemToDrag.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
-					itemToDrag.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
-				}
-	
-				document.onmousemove = function(e) {
-					moveAt(e);
-				};
-	
-				itemToDrag.onmouseup = function(e) {		
-					activeItems.push(itemToDrag);
-					initItemDragsBg()
-					document.onmousemove = null;
-					sliderImage.onmouseup = null;
-				};
-
-			})
-
-			// sliderImage.onmousedown = function(e) {
-			// }
-	
-			sliderImage.ondragstart = function() {
-				return false;
-			};
-	
-			function getCoords(elem) {
-				let box = elem.getBoundingClientRect();
-				return box;
-			}
-
-		});
-
-		function initItemDragsBg() {
-			[...activeItems].forEach((itemToDrag, i) => {
-				itemToDrag.onmousedown = function(e) {
-	
+		if(window.innerWidth > 600){
+			[...this.sliderItems].forEach((sliderItem, i) => {
+				const sliderImage = sliderItem.querySelector('img');
+				sliderImage.addEventListener('mousedown', (e) => {
+					const item = items[i];
+					removeBgItems();
+					if(!this.checkClones(item)){
+						sliderImage.classList.add('active');
+						return
+					}
+					const itemToDrag = item.cloneNode(true);
+					
+					itemToDrag.classList.add('active');
+		
 					let itemCoords = getCoords(itemToDrag);
-					console.log(e.clientX, itemCoords, gameFrameBox)
+					// console.log(e.clientX, itemCoords, gameFrameBox)
 		
 					itemToDrag.style.position = 'absolute';
 					bg.appendChild(itemToDrag);
 					moveAt(e);
-	
+		
 					function moveAt(e) {
 						itemToDrag.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
 						itemToDrag.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
@@ -788,15 +793,24 @@ class Game3 {
 						moveAt(e);
 					};
 		
-					itemToDrag.onmouseup = function(e) {
-						console.log('DragsBg onmouseup')
+					itemToDrag.onmouseup = function(e) {	
+						console.log(hitTestDrag(itemToDrag))
+						if(hitTestDrag(itemToDrag) == true) {
+							itemToDrag.classList.add('in-hitbox');
+						} 
+	
+						activeItems.push(itemToDrag);
+						initItemDragsBg()
 						document.onmousemove = null;
-						itemToDrag.onmouseup = null;
+						sliderImage.onmouseup = null;
 					};
+	
+				})
+	
+				// sliderImage.onmousedown = function(e) {
+				// }
 		
-				}
-		
-				itemToDrag.ondragstart = function() {
+				sliderImage.ondragstart = function() {
 					return false;
 				};
 		
@@ -805,63 +819,147 @@ class Game3 {
 					return box;
 				}
 	
-			})
+			});
+	
+			function initItemDragsBg() {
+				[...activeItems].forEach((itemToDrag, i) => {
+					itemToDrag.onmousedown = function(e) {
+		
+						let itemCoords = getCoords(itemToDrag);
+						console.log(e.clientX, itemCoords, gameFrameBox)
+			
+						itemToDrag.style.position = 'absolute';
+						bg.appendChild(itemToDrag);
+						moveAt(e);
+		
+						function moveAt(e) {
+							itemToDrag.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+							itemToDrag.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+						}
+			
+						document.onmousemove = function(e) {
+							moveAt(e);
+						};
+			
+						itemToDrag.onmouseup = function(e) {
+							console.log('DragsBg onmouseup')
+							document.onmousemove = null;
+							itemToDrag.onmouseup = null;
+						};
+			
+					}
+			
+					itemToDrag.ondragstart = function() {
+						return false;
+					};
+			
+					function getCoords(elem) {
+						let box = elem.getBoundingClientRect();
+						return box;
+					}
+		
+				})
+			}
 		}
 
-		// [...this.sliderItems].forEach((sliderItem, i) => {
-		// 	sliderItem.addEventListener('touchstart', (e) => {
-		// 		console.log(e)
-		// 		const item = items[i];
-		// 		if(!this.checkClones(item)){
-		// 			sliderItem.classList.add('active');
-		// 			return
-		// 		}
-		// 		const itemToDrag = item.cloneNode(true);
-				
-		// 		itemToDrag.classList.add('active');
-	
-		// 		let itemCoords = getCoords(itemToDrag);
-		// 		// console.log(e.clientX, itemCoords, gameFrameBox)
-	
-		// 		itemToDrag.style.position = 'absolute';
-		// 		bg.appendChild(itemToDrag);
-		// 		moveAt(e);
-	
-		// 		function moveAt(e) {
-		// 			itemToDrag.style.left = e.clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
-		// 			itemToDrag.style.top = e.clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
-		// 		}
-	
-		// 		const tm = () => {
-		// 			moveAt(e);
-		// 		}
-		// 		document.addEventListener('touchmove', tm);
+		if(window.innerWidth <= 600){
 
-		// 		document.addEventListener('touchend', () => {
-		// 			activeItems.push(itemToDrag);
-		// 			initItemDragsBg()
-
-		// 			document.removeEventListener('touchmove', tm)
-		// 		});
+			[...this.sliderItems].forEach((sliderItem, i) => {
+				const sliderImage = sliderItem.querySelector('img');
+				sliderImage.ontouchstart = (e) => {
+					console.log(e)
+					const item = items[i];
+					removeBgItems();
+					if(!this.checkClones(item)){
+						sliderImage.classList.add('active');
+						return
+					}
+					const itemToDrag = item.cloneNode(true);
+					
+					itemToDrag.classList.add('active');
+		
+					let itemCoords = getCoords(itemToDrag);
+		
+					itemToDrag.style.position = 'absolute';
+					bg.appendChild(itemToDrag);
+					moveAt(e);
+		
+					function moveAt(e) {
+						itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+						itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+					}
+		
+					document.ontouchmove = function(e) {
+						moveAt(e);
+					};
+		
+					sliderImage.ontouchend = function(e) {
+						console.log('ontouchend slider image')	
+						console.log(hitTestDrag(itemToDrag))
+						if(hitTestDrag(itemToDrag) == true) {
+							itemToDrag.classList.add('in-hitbox');
+						} 
 	
-		// 		itemToDrag.onmouseup = function(e) {		
-		// 		};
-
-		// 	})
-
-		// 	// sliderItem.onmousedown = function(e) {
-		// 	// }
+						activeItems.push(itemToDrag);
+						initItemDragsBgMobile()
+						document.ontouchmove = null;
+						sliderImage.ontouchend = null;
+					};
 	
-		// 	sliderItem.ondragstart = function() {
-		// 		return false;
-		// 	};
+				}
+		
+				sliderImage.ondragstart = function() {
+					return false;
+				};
+		
+				function getCoords(elem) {
+					let box = elem.getBoundingClientRect();
+					return box;
+				}
 	
-		// 	function getCoords(elem) {
-		// 		let box = elem.getBoundingClientRect();
-		// 		return box;
-		// 	}
+			});
+	
+			function initItemDragsBgMobile() {
+				[...activeItems].forEach((itemToDrag, i) => {
+					itemToDrag.ontouchstart = function(e) {
+		
+						let itemCoords = getCoords(itemToDrag);
+			
+						itemToDrag.style.position = 'absolute';
+						bg.appendChild(itemToDrag);
+						moveAt(e);
+		
+						function moveAt(e) {
+							itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+							itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+						}
+			
+						document.ontouchmove = function(e) {
+							moveAt(e);
+						};
+			
+						itemToDrag.ontouchend = function(e) {
+							console.log('DragsBg onmouseup')
+							document.ontouchmove = null;
+							itemToDrag.ontouchend = null;
+						};
+			
+					}
+			
+					itemToDrag.ondragstart = function() {
+						return false;
+					};
+			
+					function getCoords(elem) {
+						let box = elem.getBoundingClientRect();
+						return box;
+					}
+		
+				})
+			}
 
-		// });
+		}
+		
 	}
 
 	checkClones(item){
@@ -873,6 +971,36 @@ class Game3 {
 		} else {
 			return true
 		}
+	}
+
+	hitTestDrag(itemTest){
+		const hitboxes = [...this.hitboxes];
+		const activeItems = [...this.activeItems];
+		const itemsOnTest = [];
+		let found = false;
+
+		hitboxes.forEach(h => { 
+			const hRect = h.getBoundingClientRect();
+			const iTestRect = itemTest.getBoundingClientRect()
+
+			if(this.findContainment(iTestRect, hRect) === 'contained'){
+				found = true;
+			}
+			
+			activeItems.forEach(aItem => {
+				const iRect = aItem.getBoundingClientRect()
+
+				if(this.findContainment(iRect, hRect) != 'contained'){
+					return
+				}
+				console.log(aItem, h)
+				
+				itemsOnTest.push(aItem)
+			})
+		})
+		console.log('found :', found)
+		return found;
+
 	}
 
 	hitTest(){
@@ -1012,6 +1140,14 @@ class Game3 {
 			this.itemsWrap.appendChild(item)
 			item.classList.remove('active');
 			item.setAttribute('style', this.itemDefaultStyles[i])
+		})
+	}
+
+	removeBgItems () {
+		[...this.root.querySelectorAll('.game-main__bg .game-drags__item')].forEach(activeItem => {
+			if(!activeItem.classList.contains('in-hitbox')){
+				activeItem.remove();
+			}
 		})
 	}
 

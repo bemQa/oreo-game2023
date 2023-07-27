@@ -661,7 +661,7 @@ form span.error {
 }
 
 .game-ovelay__frame{
-	position: absolute;
+	position: fixed;
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -1104,6 +1104,18 @@ form span.error {
 .overlay--game3Win .game-ovelay,
 .overlay--game3Lose .game-ovelay{
 	height: 625px;
+}
+
+@media (max-width: 600px) {
+	.game-overaly-frame--game3-lose,
+	.game-overaly-frame--game3-win,
+	.overlay--game3GameOver .game-ovelay,
+	.overlay--game3Lose,
+	.overlay--game3Win,
+	.overlay--game3Win .game-ovelay,
+	.overlay--game3Lose .game-ovelay{
+		height: 100%;
+	}
 }
 
 body{
