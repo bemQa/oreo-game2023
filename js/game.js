@@ -574,15 +574,30 @@ class Game2 {
 	hitTest(item){
 		const hitboxes = [...this.hitboxes];
 		const hitboxIntersects = [];
+		const activeItems = [...this.items].filter(item => item.classList.contains('active'));
+
+		let temp = [];
+
+		// [1 - обертка,2 - красный хитбокс,1 - обертка,2 - красный]
+		// нужно собирать отдельный массив из пары элементов [1 - обертка, 2 - хитбокс]
+		// полученный массив пушить в главный массив, тем самым получая результат [[1 - обертка, 2 - хитбокс], [1 - обертка, 2 - хитбокс], [1 - обертка, 2 - хитбокс]]
+		// [[1,2],[1],[1],[2]]
+
+		// [[div.game-hitbox.orange, div.game-hitbox], [div.game-hitbox], [div.game-hitbox]]
 
 		hitboxes.forEach((h, i) => {
-			const hRect = h.getBoundingClientRect();
-			const iRect = item.getBoundingClientRect()
-			
-			if(this.findContainment(iRect, hRect) == 'contained'){
-				hitboxIntersects.push(h)
-				// this.itemsOnTest.push(item.dataset.item)
-			}
+			activeItems.forEach((activeItem) => {
+				
+				const hRect = h.getBoundingClientRect();
+				const iRect = activeItem.getBoundingClientRect()
+				
+				if(this.findContainment(iRect, hRect) == 'contained'){
+					temp.push(h)
+					hitboxIntersects.push(temp)
+					
+					// this.itemsOnTest.push(item.dataset.item)
+				}
+			})
 
 		})
 
@@ -688,27 +703,6 @@ class Game2 {
 			Array.isArray(b) &&
 			a.length === b.length &&
 			a.every((val, index) => val === b[index]);
-	}
-
-	intersectRect(r1, r2) {
-		// const xOverlapPX = Math.abs(r1.left - r2.left - (r1.width - r2.width));
-		// const xOverlapPercentsDiff = xOverlapPX / r1.width;
-		// const yOverlapPX = Math.abs(r1.top - r2.top - (r1.height - r2.height));
-		// const yOverlapPercentsDiff = yOverlapPX / r1.height;
-		// console.log(xOverlapPercentsDiff, yOverlapPercentsDiff)
-		// if(!(xOverlapPercentsDiff < .1 && yOverlapPercentsDiff < .25)){
-		// 	return false
-		// }
-		// const xOverlapPX = Math.abs(r2.left - r1.left);
-		console.log(r2.left, r1.left)
-
-
-		return (
-			!(r1.right < r2.left || 
-			r1.left > r2.right || 
-			r1.bottom < r2.top || 
-			r1.top > r2.bottom)
-		);
 	}
 	  
 }
