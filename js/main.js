@@ -148,14 +148,14 @@ switchLogo('logo');
 appFrames.hideOverlay();
 appFrames.showFrame('start');
 
-// document.body.classList.add('debug')
+document.body.classList.add('debug')
 
 // switchLogo('stopwatch');
 // stopWatchError(true);
 // appFrames.showFrame('game1');
 // appFrames.showFrame('ratings');
 // appFrames.showFrame('game2Rules');
-// appFrames.showGame('game3')
+// appFrames.showGame('game2')
 // appFrames.showOverlay('game3Win')
 // appFrames.showFrame('game1-winframe');
 

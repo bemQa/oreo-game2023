@@ -33,9 +33,14 @@ class AppFrames {
 		const game = document.getElementById(id);
 		this.hideFrames();
 		this.hideGames();
-		// document.body.classList.add('no-scroll')
-		console.log(this)
+		document.body.classList.add('no-scroll')
+
+		const linkEl = document.getElementById(`validation`);
+		const href = linkEl.href;
+		linkEl.href = '';
+		linkEl.href = href;
 		// this.hideOverlay();
+		
 		this.tl.to(this.appbg, {
 			duration: 0,
 			opacity: 0,
@@ -48,7 +53,7 @@ class AppFrames {
 	
 	hideGames() {
 		[...this.settings.games].forEach(g => g.classList.remove('active'));
-		// document.body.classList.remove('no-scroll')
+		document.body.classList.remove('no-scroll')
 		console.log([...this.settings.games])
 		this.tl.set(Object.values(this.settings.games), {
 			opacity: 0,
