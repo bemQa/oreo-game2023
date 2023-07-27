@@ -45,7 +45,7 @@ class Countdown {
 
 
 class Stopwatch {
-	constructor(id, delay=100) { //Delay in ms
+	constructor(id, delay=50) { //Delay in ms
 	  this.state = "paused";
 	  this.delay = delay;
 	  this.display = document.getElementById(id);
