@@ -149,7 +149,7 @@ switchLogo('logo');
 appFrames.hideOverlay();
 appFrames.showFrame('start');
 
-document.body.classList.add('debug')
+// document.body.classList.add('debug')
 
 // switchLogo('stopwatch');
 // stopWatchError(true);
