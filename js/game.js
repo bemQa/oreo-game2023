@@ -49,6 +49,7 @@ class Game {
 		const gameDrag = this.itemsWrap; 
 		this.checkClones = this.checkClones.bind(this);
 		let dragObject = {};
+		const removeBgItems = this.removeBgItems.bind(this);
 		// for slider
 		[...this.sliderItems].forEach((sliderItem, i) => {
 			const sliderImage = sliderItem.querySelector('img');
@@ -62,7 +63,7 @@ class Game {
 					return
 				}
 
-				
+				removeBgItems();
 				const itemToDrag = item.cloneNode(true);
 
 				dragObject.elem = item;
@@ -110,6 +111,8 @@ class Game {
 					
 					if(hitTest(itemToDrag) == true){
 						// bg.appendChild(itemToDrag);
+						itemToDrag.classList.add('in-hitbox');
+						
 					} else {
 						bg.removeChild(itemToDrag);
 					}
@@ -117,6 +120,7 @@ class Game {
 					dragObject = {};
 					document.onmousemove = null;
 					sliderImage.onmouseup = null;
+
 				};
 			}
 			const boundedDrags = drags.bind(this)
@@ -180,6 +184,14 @@ class Game {
 			})
 		}
 
+	}
+
+	removeBgItems () {
+		[...this.root.querySelectorAll('.game-main__bg .game-drags__item')].forEach(activeItem => {
+			if(!activeItem.classList.contains('in-hitbox')){
+				activeItem.remove();
+			}
+		})
 	}
 
 	checkClones(item, activeItems){
@@ -270,8 +282,8 @@ class Game {
 	}
 
 	restart(){
-		[...this.activeItems].forEach(item => item.classList.remove('active'));
-		this.activeItems = [];
+
+		[...this.root.querySelectorAll('.game-main__bg .game-drags__item')].forEach(item => item.remove());
 		[...this.items].forEach((item, i) => {
 			this.itemsWrap.appendChild(item)
 			item.classList.remove('active');
@@ -573,6 +585,7 @@ class Game2 {
 
 
 
+
 class Game3 {
 	root;
 	nodeDragArea;
@@ -600,6 +613,7 @@ class Game3 {
 		this.itemsWrap = root.querySelector('.game-drags');
 		this.items.forEach(item => this.itemDefaultStyles.push(item.getAttribute('style')));
 		this.root.querySelector('.button').addEventListener('click', () => {
+			this.removeBgItems();
 			this.hitTest();
 		})
 
@@ -616,11 +630,14 @@ class Game3 {
 		const items = [...this.items];
 		const activeItems = this.activeItems;
 		this.checkClones = this.checkClones.bind(this);
+		const hitTestDrag = this.hitTestDrag.bind(this);
+		const removeBgItems = this.removeBgItems.bind(this);
 
 		[...this.sliderItems].forEach((sliderItem, i) => {
 			const sliderImage = sliderItem.querySelector('img');
 			sliderImage.addEventListener('mousedown', (e) => {
 				const item = items[i];
+				removeBgItems();
 				if(!this.checkClones(item)){
 					sliderImage.classList.add('active');
 					return
@@ -645,7 +662,12 @@ class Game3 {
 					moveAt(e);
 				};
 	
-				itemToDrag.onmouseup = function(e) {		
+				itemToDrag.onmouseup = function(e) {	
+					console.log(hitTestDrag(itemToDrag))
+					if(hitTestDrag(itemToDrag) == true) {
+						itemToDrag.classList.add('in-hitbox');
+					} 
+
 					activeItems.push(itemToDrag);
 					initItemDragsBg()
 					document.onmousemove = null;
@@ -773,6 +795,37 @@ class Game3 {
 		} else {
 			return true
 		}
+	}
+
+	hitTestDrag(itemTest){
+		const hitboxes = [...this.hitboxes];
+		const activeItems = [...this.activeItems];
+		console.log(activeItems)
+		const itemsOnTest = [];
+		let found = false;
+
+		hitboxes.forEach(h => { 
+			const hRect = h.getBoundingClientRect();
+			const iTestRect = itemTest.getBoundingClientRect()
+
+			if(this.findContainment(iTestRect, hRect) === 'contained'){
+				found = true;
+			}
+			
+			activeItems.forEach(aItem => {
+				const iRect = aItem.getBoundingClientRect()
+
+				if(this.findContainment(iRect, hRect) != 'contained'){
+					return
+				}
+				console.log(aItem, h)
+				
+				itemsOnTest.push(aItem)
+			})
+		})
+		console.log('found :', found)
+		return found;
+
 	}
 
 	hitTest(){
@@ -912,6 +965,14 @@ class Game3 {
 			this.itemsWrap.appendChild(item)
 			item.classList.remove('active');
 			item.setAttribute('style', this.itemDefaultStyles[i])
+		})
+	}
+
+	removeBgItems () {
+		[...this.root.querySelectorAll('.game-main__bg .game-drags__item')].forEach(activeItem => {
+			if(!activeItem.classList.contains('in-hitbox')){
+				activeItem.remove();
+			}
 		})
 	}
 

@@ -135,7 +135,6 @@ const appFrames = new AppFrames({
 
 const stopWatchError = (state) => {
 	const root = document.querySelector('.stopwatch');
-	console.log(stopwatch.display)
 	if(state) {
 		root.classList.add('error')
 	} else {
@@ -149,7 +148,7 @@ switchLogo('logo');
 appFrames.hideOverlay();
 appFrames.showFrame('start');
 
-// document.body.classList.add('debug')
+document.body.classList.add('debug')
 
 // switchLogo('stopwatch');
 // stopWatchError(true);
@@ -167,6 +166,7 @@ const gameStartButtons = document.querySelectorAll('[data-game-link]');
 
 [...buttons].forEach(b => {
 	b.addEventListener('click', () => {
+		stopWatchError(false);
 		appFrames.showFrame(b.dataset.frameLink);
 	})
 });
@@ -191,7 +191,7 @@ winFrames.forEach(f => {
 			appFrames.showFrame(f);
 		});
 	})
-})
+});
 // appFrames.showOverlay('game1Lose');
 // appFrames.showOverlay('game1Win');
 // stopwatch.start();
@@ -227,6 +227,7 @@ const game1 = new Game(
 			console.log('game over!');
 			appFrames.showOverlay('game1GameOver');
 			stopwatch.addSeconds(60);
+			stopwatch.stop();
 			stopwatch.reset();
 			switchLogo('logo');
 		}
@@ -255,6 +256,7 @@ const game2 = new Game2(
 			console.log('game over!');
 			appFrames.showOverlay('game2GameOver');
 			stopwatch.addSeconds(60);
+			stopwatch.stop();
 			stopwatch.reset();
 			switchLogo('logo');
 		}
@@ -284,6 +286,7 @@ const game3 = new Game3(
 			appFrames.showOverlay('game3GameOver');
 			stopwatch.addSeconds(60);
 			stopwatch.stop();
+			stopwatch.reset();
 			switchLogo('logo');
 		}
 	}
