@@ -67,7 +67,9 @@ function maskInit() {
 
 function gameSlider() {
 	$('.game-slider').slick({
-		arrows: false,
+		swipe: false,
+		touchMove: false,
+		arrows: true,
 		buttons: false,
 		dots: true,
 		centerMode: true,

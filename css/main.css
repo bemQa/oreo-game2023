@@ -889,7 +889,21 @@ form span.error {
 .slick-arrow{
 	position: absolute;
 	top: 30px;
-	display: none !important;
+	width: 40px;
+	height: 40px;
+	border: none;
+	font-size: 0;
+	z-index: 1;
+}
+
+.slick-prev {
+	left: 10px;
+	background: url(../img/arrow-left.svg) center/contain no-repeat;
+}
+
+.slick-next {
+	right: 10px;
+	background: url(../img/arrow-right.svg) center/contain no-repeat;
 }
 
 .slick-slide{

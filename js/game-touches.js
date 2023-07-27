@@ -180,6 +180,106 @@ class Game {
 			})
 		}
 
+		[...this.sliderItems].forEach((sliderItem, i) => {
+			const sliderImage = sliderItem.querySelector('img');
+
+			sliderImage.addEventListener('touchstart',(e) => {
+				e.preventDefault();
+				document.body.classList.add('no-scroll');
+				console.log('touchstart')
+				const item = items[i];
+				console.log(self.checkClones(item, self.activeItems))
+				if(!self.checkClones(item)){
+					sliderImage.classList.add('active');
+					return
+				}
+				const itemToDrag = item.cloneNode(true);
+
+				itemToDrag.classList.add('active');
+	
+				let itemCoords = getCoords(itemToDrag);
+				console.log(e.changedTouches[0], itemCoords, gameFrameBox)
+	
+				itemToDrag.style.position = 'absolute';
+				bg.appendChild(itemToDrag);
+				moveAt(e);
+	
+				function moveAt(e) {
+					itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+					itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+				}
+	
+				document.ontouchmove = function(e) {
+					e.preventDefault();
+					moveAt(e);
+				};
+				sliderImage.addEventListener('touchend' , (e) => {
+					e.preventDefault();
+					console.log('ontouchend')
+					document.body.classList.remove('no-scroll');
+					self.activeItems.push(itemToDrag);
+					console.log(self.activeItems)
+					initItemDragsBgMobile();
+					
+					hitTest(itemToDrag);
+					document.ontouchmove = null;
+					sliderImage.ontouchend = null;
+
+				})
+				// .ontouchend = function(e) {
+				// };
+
+			})
+	
+			sliderItem.ontouchstart = function() {
+				return false;
+			};
+	
+			function getCoords(elem) {
+				let box = elem.getBoundingClientRect();
+				return box;
+			}
+
+		});
+
+		function initItemDragsBgMobile() {
+			[...self.activeItems].forEach((itemToDrag, i) => {
+				itemToDrag.addEventListener('touchstart', (e) => {
+					let itemCoords = getCoords(itemToDrag);
+		
+					itemToDrag.style.position = 'absolute';
+					bg.appendChild(itemToDrag);
+					moveAt(e);
+	
+					function moveAt(e) {
+						itemToDrag.style.left = e.changedTouches[0].clientX - gameFrameBox.x - itemCoords.width / 2 + 'px';
+						itemToDrag.style.top = e.changedTouches[0].clientY - gameFrameBox.y - itemCoords.height / 2 + 'px';
+					}
+		
+					document.ontouchmove = function(e) {
+						moveAt(e);
+					};
+		
+					itemToDrag.ontouchend = function(e) {
+						console.log('ontouchend')
+						hitTest(itemToDrag);
+						document.ontouchmove = null;
+						itemToDrag.ontouchend = null;
+					};
+
+				})
+		
+				itemToDrag.ondragstart = function() {
+					return false;
+				};
+		
+				function getCoords(elem) {
+					let box = elem.getBoundingClientRect();
+					return box;
+				}
+	
+			})
+		}
 	}
 
 	checkClones(item, activeItems){
