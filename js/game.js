@@ -575,11 +575,12 @@ class Game2 {
 		const hitboxes = [...this.hitboxes];
 		const activeItems = [...this.items].filter(item => item.classList.contains('active'));
 
+		let tempTest = [];
+		let tempItems = [];
+
 		if(activeItems.length != 4){
 			return
 		}
-
-		let temp = [];
 
 		hitboxes.forEach((h, i) => {
 			activeItems.forEach((activeItem) => {
@@ -587,30 +588,48 @@ class Game2 {
 				const hRect = h.getBoundingClientRect();
 				const iRect = activeItem.getBoundingClientRect()
 				
+				
 				if(this.findContainment(iRect, hRect) == 'contained'){
-					temp.push(h.dataset.hitbox);
-					console.log(temp)
+					if(!(h.dataset.hitbox != '0')){
+						return
+					}
+					tempItems.push(activeItem, h);
+					
+					tempTest.push(h.dataset.hitbox);
+					
+					console.log(tempTest, tempItems)
 				}
 			})
 			
 		})
-		console.log(temp)
-		this.checkWin(temp);
+
+
+		this.checkWin(tempItems);
+		
 	}
+	
+	removeDuplicates(arr) {
+		return arr.filter((item,
+			index) => arr.indexOf(item) === index);
+	}
+	
+	checkWin(testItems){
+		const winCondition = 4;
+		let tempHitboxes = []; 
+		tempHitboxes = testItems.filter((item, i) => {
+			if(i % 2 != 0){
+				return item;
+			}
+		})
 
-	checkWin(testValRaw){
-		const winCondition = ['1', '1', '1', '1'];
-		const testVal = testValRaw.slice(testValRaw.length - 4)
-		
-		if(!this.arrayEquals(testVal, winCondition)){
-			console.log('winCond false')
-			this.checkGameOver();
-			return
-		} else {
+		const noDoubles = this.removeDuplicates(tempHitboxes);
+
+		if(noDoubles.length == winCondition){
 			this.settings.onWin(this);
+		} else {
+			this.checkGameOver();
 		}
-		
-
+	
 	}
 
 	restart(){
